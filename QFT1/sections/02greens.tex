@@ -1,0 +1,306 @@
+\chapter{Green's Functions}
+
+\section{$N$-Point Green's Function}
+
+Last lecture we derived an expression for $\bra{p_n}U(T)\ket{q_0}$ and said we would use it for something. Let's now consider the same calculation, but now we insert a bunch of $q$ operators at times $t_1<t_2<...<t_N$ in between the different $U(t)$s. That is consider 
+\bse 
+    \bra{p_F} U(t_F-t_N) q \,  U(t_N-t_{N-1}) q  ... q \,U(t_1-t_I)\ket{q_I} = \bra{p_F} U(t_F) \cT\big(q(t_N)...q(t_1)\big) U(t_I)\ket{q_I}.
+\ese 
+This equation above says "start at some initial position and time, $\ket{q_I}$, then evolve to $t_1$, $U(t_1-t_I)$, then insert a $q$ operator at $t_1$, then evolve to $t_2$, $U(t_2-t_1)$, insert a $q$, etc until you get to $t_N$ and then finally evolve to $t_F$ and arrive at the final state." For clarity, what we're doing is considering all the paths from initial state $\ket{q_I}$ to final state $\ket{p_F}$ and fixing $N$ points along the way by the values $q(t_i)$. That is, every path not only has to start and end at the same place, but they must all meet at $N$ points in between. For example, if $N=2$ we have two fixed points, and all paths must meet there, as indicated with the two paths below. The dashed lines are our equal time sheets, and the two dots represent the insertion of an operator $q$. 
+\begin{center}
+    \btik 
+        \draw[thick] (0,0) .. controls (2,1) and (4,-1) .. (6,0);
+        \draw[thick] (0,0) .. controls (0.5,-0.5) and (2,1) .. (3.5,0) .. controls (4.5,-0.7) .. (6,0);
+        \draw[fill=black] (1.67,0.27) circle [radius=0.07];
+        \draw[fill=black] (3.75,-0.18) circle [radius=0.07];
+        \draw[dashed] (0,1) -- (0,-1);
+        \draw[dashed] (1.67,1) -- (1.67,-1);
+        \draw[dashed] (3.75,1) -- (3.75,-1);
+        \draw[dashed] (6,1) -- (6,-1);
+        \node at (0,-1.2) {$t_I$};
+        \node at (1.67,-1.2) {$t_1$};
+        \node at (3.75,-1.2) {$t_2$};
+        \node at (6,-1.2) {$t_F$};
+    \etik 
+\end{center}
+
+The calculation will follow through exactly as above, but now the $q$ operators will act on the inserted states $\ket{q_i}$. This gives us 
+\bse 
+    \frac{1}{\sqrt{2\pi\hbar}} \int DpDq \, q(t_N)q(t_{N-1}) ... q(t_1) \exp\bigg[ \frac{i}{\hbar} \bigg(\int_{t_I}^{t_F} dt \Big(p(t)\dot{q}(t) - H(p,q)\Big) - p(t_F)q(t_F)\bigg) \bigg],
+\ese 
+where the $q(t_i)$s here are the eigenvalues.
+
+\br 
+\label{rem:PathIntegralTimeOrdered}
+    Note the path integral automatically gives us the time-ordering. That is, even if we switch the $q(t_i)$s around in the final expression (which we can do because they're just numbers) we can arrive back at the time ordered expression. This is just because we define our evolution operator to only go forward in time, and so the only way we can order our time evolution operators is so that $q(t_N)$ appears furthest to the left and $q(t_1)$ furthest to the right.
+\er 
+
+We now use the result from the end of last lecture, to claim that in the limit $t_I\to-\infty$ and $t_F\to\infty$, the above simply becomes the so-called \textit{$N$-point Green's function}:
+\bse 
+    G(t_1,...,t_N) := \bra{\Omega} \cT \big(q(t_1)...q(t)N)\big) \ket{\Omega}.
+\ese 
+This just comes from taking the limit using the right hand side of the first equation in this lecture. So we get an explicit expression for it as 
+\bse 
+    G(t_1,...,t_N) = \widetilde{\cN} \int DpDq \, q(t_N)q(t_{N-1}) ... q(t_1) \exp \bigg[ \frac{i}{\hbar} \int_{-\infty e^{-i\theta}}^{{\infty e^{-i\theta}}} dt \, \big(p(t)\dot{q}(t) - H(p,q)\big)\bigg],
+\ese 
+for some normalisation constant $\widetilde{\cN}$, which contains the $p(t_F)q(t_F)$ term in the previous exponential. Note the limits on the integrals contain factors of $e^{-i\theta}$ to remind us that we're doing the Wick rotated integral. To save notation, we shall drop the integral limits below, but its important to note that we have to take this limit to define the $N$-point Green's function.
+
+\br 
+\label{rem:EuclideanTime}
+    With that last comment in mind, it is common to take $\theta=\pi/2$ so that $e^{-i\theta}=-i$ and then define $\tau=-it$ so that we can write the integral as\footnote{Bonus exercise, check this.} 
+    \bse 
+        i\int_{i\infty}^{-i\infty} dt = - \int_{-\infty}^{\infty} d\tau
+    \ese 
+    This allows us to see the exponential suppression even easier. As mentioned last lecture, $\tau$ is referred to as \textit{Euclidean time}. Note in Euclidean time $\dot{q}=i\dot{q}$, and so 
+    \bse 
+        L(q,\dot{q}) \to -\frac{m}{2}\dot{q}^2 - V(q),
+    \ese 
+    and so we define the \textit{Euclidean Action}
+    \bse 
+        S_E[q] := \int d\tau \bigg(\frac{m}{2}\dot{q}^2 + V(q)\bigg)
+    \ese 
+\er 
+
+\subsection{1-Dimensional QM}
+
+Let's evaluate this for our 1-dimensional QM system. We have
+\bse 
+    \begin{split}
+        p\dot{q} - H & = p\dot{q} - \frac{p^2}{2m} - V(q) \\
+        & = -\frac{1}{2m}(p-m\dot{q})^2 + \frac{m}{2}\dot{q}^2 - V(q) \\
+        & = - \frac{1}{2m} (p-m\dot{q})^2 + L(q,\dot{q}),
+    \end{split}
+\ese 
+which allows us to split the $Dp$ and $Dq$ integral, giving us 
+\bse 
+    G(t_1,...,t_N) = \widetilde{N} \int Dp \exp\bigg( -\frac{i}{2m\hbar}\int dt \, (p-m\dot{q})^2 \bigg) \int Dq \, q(t_N)...q(t_1) \exp \bigg[ \frac{i}{\hbar} \int dt \, L(q,\dot{q}) \bigg].
+\ese
+
+\bcl 
+    The integral 
+    \bse 
+        \int Dp \exp\bigg( -\frac{i}{2m\hbar}\int dt \, (p-m\dot{q})^2 \bigg)
+    \ese 
+    is well defined. 
+\ecl 
+\bq 
+    Given \Cref{rem:EuclideanTime}, at first site this claim doesn't seem true, as going to Euclidean time just removes the $i$ and puts a minus sign in, which in this case would give us a positive exponential. However we have to remember that $\dot{q}$ involves a time derivative and so is also effected. We therefore prove the claim by considering discreting time. The integral then becomes a product of integrals of the form
+    \bse 
+        \int d\widetilde{p} \exp\bigg[ -\frac{i\epsilon}{2m\hbar} \widetilde{p}^2\bigg],
+    \ese 
+    where we have defined 
+    \bse 
+        \widetilde{p} := (p-m\dot{q}),
+    \ese 
+    and used the fact that $p$ and $\widetilde{p}$ are linearly related to change the measure to $d\widetilde{p}$. Under the Wick rotation, this becomes 
+    \bse 
+        \int d\widetilde{p} \exp\bigg[ -\frac{\epsilon}{2m\hbar}\big(\sin\theta +i\cos\theta\big) \widetilde{p}^2\bigg] = \sqrt{\frac{2\pi\hbar m}{i\epsilon(\cos\theta-i\sin\theta )}},
+    \ese
+    where the right-hand side comes from Gaussian integral formula which states 
+    \bse 
+        \int dx e^{-ax^2} = \sqrt{\frac{\pi}{a}} \qquad \text{if } \qquad \Re a >0,
+    \ese 
+    which we have as $\theta \in [0,\pi/2]$. If we then set $\theta=0$, we get 
+    \be 
+    \label{eqn:DpGaussianResult}
+        \int Dp \exp\bigg(-\frac{i}{2m\hbar} \int dt(p-m\dot{q})^2\bigg) = \lim_{n\to\infty} \bigg(\frac{-im}{\epsilon}\bigg)^{\frac{n-1}{2}},
+    \ee 
+    where have used the definition of $Dp$, \Cref{eqn:PathIntegralMeasure}.
+\eq 
+
+So if we absorb this result into our normalisation constant, and use the definition of the action, we get 
+\bse 
+    G(t_1,...,t_N) = \cN \int Dq \, q(t_N)...q(t_1) \exp\bigg(\frac{i}{\hbar} S[q]\bigg).
+\ese 
+
+We can find the normalisation constant by consider the $0$-point Green's function, which is just the vacuum inner product $\braket{\Omega}{\Omega} =1$, as we define it to be normalised. Therefore we conclude 
+\bse
+    \cN = \frac{1}{\int Dq \, \exp\Big(\frac{i}{\hbar} S[q]\Big)}, 
+\ese 
+finally giving us the result 
+\mybox{
+\be 
+\label{eqn:NPointGreensFunctionQM}
+    G(t_1,...,t_N) = \frac{\int Dq \, q(t_N)...q(t_1) \exp\Big(\frac{i}{\hbar} S[q]\Big)}{\int Dq \, \exp\Big(\frac{i}{\hbar} S[q]\Big)}.
+\ee 
+}
+
+\br 
+    Note that $G(t_1,...,t_N)$ is totally symmetric in all its entries, as the $q(t_i)$s are just numbers. Recall \Cref{rem:PathIntegralTimeOrdered} tells us we can do this without altering the time ordering we need.  
+\er 
+
+In Euclidean time this can be written 
+\bse 
+    G_E(t_1,...,t_N) = \frac{\int Dq \, q(t_N)...q(t_1) \exp\Big(-\frac{1}{\hbar} S_E[q]\Big)}{\int Dq \, \exp\Big(\frac{i}{\hbar} S_E[q]\Big)}
+\ese
+
+\section{Partition Function}
+
+\subsection{Functional Derivative}
+
+Recall that a functional is an object that maps functions to numbers. The action is an example, as it maps the functions $q(t)$ to some number. Recall the derivative of a function is given by 
+\bse 
+    \frac{df}{dx} := \lim_{\epsilon\to0} \frac{f(x+\epsilon)-f(x)}{\epsilon}.
+\ese
+We can use this to motivate the definition of the derivative of a functional. 
+
+\bd[Functional Derivative]
+    Given a functional $F[J]$, we define the \textit{functional derivative} of $F$ as 
+    \be 
+    \label{eqn:FunctionalDerivative}
+        \frac{\del F[J]}{\del J(s)} := \lim_{\epsilon\to0} \frac{F[J(t)+\epsilon\del(t-s)]-F[J]}{\epsilon}.
+    \ee 
+\ed 
+
+We are often only interested in the variation $\del F[J]$, which is given by
+\be 
+\label{eqn:VaritaionOfFunctional}
+    \del F[J] = \int ds \, \del J(s) \, \frac{\del F[J]}{\del J(s)}.
+\ee 
+We can also find the variation by simply calculating 
+\bse 
+    F[J+\del J] - F[J]
+\ese 
+to order $\del J$.
+
+\bc 
+    It follows immediately from the definition above that for the functional 
+    \bse 
+        F[J] = J(t), \qquad \forall J
+    \ese 
+    where $t$ is some fixed value in the argument of $J$ that 
+    \bse 
+        \frac{\del J(t)}{\del J(s)} := \frac{\del F[J]}{\del J(s)} = \del(t-s),
+    \ese 
+    where the left-hand expression is defined for notational simplicity.
+\ec 
+
+\br 
+    We can treat $\frac{\del}{\del J(s)}$ sort of like a regular partial derivative, and use things like the product rule. However we should be careful when doing this as it doesn't always work.
+\er 
+
+\bex 
+    Let 
+    \bse 
+        F[J] = \int dt \phi(t) J(t),
+    \ese 
+    then
+    \bse 
+        \begin{split}
+            \frac{\del F[J]}{\del J(s)} & = \lim_{\epsilon\to0} \frac{\int dt \phi(t) \big(J(t) + \epsilon\del(t-s)\big) - \int dt \phi(t) J(t)}{\epsilon} \\
+            & = \phi(s)
+        \end{split}
+    \ese 
+    We get the same result using the partial derivative approach:
+    \bse 
+        \begin{split}
+            \frac{\del F[J]}{\del J(s)} & = \int dt \bigg(\frac{\del \phi(t)}{\del J(s)}J(t) + \phi(t) \frac{\del J(t)}{\del J(s)}\bigg) \\
+            & = \int dt \phi(t) \del(t-s) \\
+            & = \phi(s).
+        \end{split}
+    \ese
+    This gives us 
+    \bse 
+        \del F[J] = \int ds \phi(s) \del J(s).
+    \ese 
+\eex
+
+\subsection{Partition Function}
+
+We can take the sum over all the $N$-point Green's functions and get what is known as a \textit{generating functional}. For the specific case of the sum of $N$-point Green's functions, we call the resulting generating functional the \textit{partition function}.
+\mybox{
+    \be 
+    \label{eqn:PartitionFunction}
+        Z[J] := 1 + \sum_{N=1}^{\infty} \frac{1}{N!} \int ds_1... ds_N G(s_1,...,s_N) J(s_1) ... J(s_N).
+    \ee 
+}
+\noindent The partition function is incredible useful as it allows us to calculate \textit{any} $N$-point Green's function by taking $N$ functional derivatives and then setting $J=0$. That is 
+\mybox{
+    \be
+    \label{eqn:GreensFunctionsFromParition}
+        G(t_1,..,t_N) = \frac{\del^N Z[J]}{\del J(t_1) ... \del J(t_N)} \bigg|_{J=0}.
+    \ee 
+}
+
+\bex 
+    Let's do it for $N=2$. The derivatives will kill the first two terms in the expansion, and then anything with more than two $J$s will vanish when we set $J=0$. So we are left with 
+    \bse 
+        \begin{split}
+            \frac{\del^2Z[J]}{\del J(t_1) \del J(t_2)}\bigg|_{J=0} & = \frac{1}{2} \int ds_1 ds_2 G(s_1,s_2) \frac{\del}{\del J(s_1)} \big( \del(s_1-t_2) J(s_2) + J(s_1) \del(s_2-t_2)\big) \\
+            & = \frac{1}{2}\int ds_1ds_2 G(s_1,s_2) \big(\del(s_1-t_2)\del(s_2-t_2) + \del(s_2-t_2)\del(s_1-t_2)\big) \\
+            & = \frac{1}{2}\big(G(t_2,t_1) + G(t_1,t_2)\big) \\
+            & = G(t_1,t_2),
+        \end{split}
+    \ese 
+    where the last line has used the symmetric property of the $N$-point Green's functions.
+\eex 
+
+\subsection{Path Integral Form}
+
+We can use the path integral expression for the $N$-point Green's function, \Cref{eqn:NPointGreensFunctionQM} to write the partition function as a path integral. We have 
+\bse 
+    \begin{split}
+        \frac{1}{\cN} Z[J] & = \int Dq \bigg( e^{\frac{i}{\hbar}S[q]} + \sum_{N=1}^{\infty} \frac{1}{N!} \int ds_1...ds_N J(s_1) ... J(s_N) q(s_1) ... q(s_N) \,  e^{\frac{i}{\hbar}S[q]}\bigg) \\
+        & = \int Dq \sum_{N=0}^{\infty} \frac{1}{N!} \bigg(\int ds \,  q(s)J(s)\bigg)^N e^{\frac{i}{\hbar}S[q]} \\
+        & = \int Dq \exp \bigg( \frac{i}{\hbar}S[q] + \int ds \, q(s) J(s)\bigg),
+    \end{split}
+\ese 
+so that 
+\mybox{
+    \be
+    \label{eqn:PartitionFunctionPathIntegral}
+        Z[J] = \cN \int Dq \exp \bigg( \frac{i}{\hbar}S[q] + \int dt \, q(t) J(t)\bigg)
+    \ee
+}
+
+\br 
+    \Cref{eqn:PartitionFunctionPathIntegral} is often defined using another convention given by sending
+    \bse 
+        \frac{\del}{\del J(t)} \to -i\hbar \frac{\del}{\del J(t)},
+    \ese
+    so that we get 
+    \bse 
+        Z[J] = \cN \int Dq \exp \bigg[ \frac{i}{\hbar}\bigg( S[q] + \int dt \, q(t) J(t)\bigg)\bigg].
+    \ese 
+    We can also write it as a Euclidean path integral. If we use the convention \Cref{eqn:PartitionFunctionPathIntegral}, we redefine $J(t)\to iJ(t)$ to give 
+    \bse 
+        Z[J] = \cN \int Dq \exp \bigg( -\frac{1}{\hbar}S_E[q] + \int dt \, q(t) J(t)\bigg).
+    \ese 
+\er 
+
+\section{Back To The Feynman Kernel}
+
+Ok now let's return to the Feynman kernel and express it as a path integral. Recall that it's defined as 
+\bse 
+    K(q_F,T;q_I,0) := \bra{q_F}U(T)\ket{q_I}.
+\ese 
+We can insert the complete set of states
+\bse 
+    \b1 = \int dp_F \ket{p_F}\bra{p_F} 
+\ese 
+to give
+\bse 
+    \begin{split}
+        K(q_F,T;q_I,0) & = \int dp_F \braket{q_F}{p_F}\bra{p_F}U(T)\ket{q_I} \\
+        & =  \lim_{n\to\infty} \bigg(\frac{-im}{\epsilon}\bigg)^{\frac{n-1}{2}} \int dp_F \frac{1}{\sqrt{2\pi\hbar}}e^{\frac{i}{\hbar}p_Fq_F} \frac{1}{\sqrt{2\pi\hbar}}\int Dq \exp\bigg(\frac{i}{\hbar} S[q] - p_Fq_{n-1}\bigg),
+    \end{split}
+\ese 
+where we have used \Cref{eqn:pqInnerProduct,eqn:DpGaussianResult,eqn:pUq}, with the latter manipulated as we did for the Green's function to get the action in the exponential. The constant $A$ is just the result of  Note that we haven't taken the limit on the $q_{n-1}$ in the exponential yet, this is because we can now combine it with the first exponential and use 
+\bse 
+    \int dp_F \exp\bigg( \frac{i}{\hbar} p_F(q_F-q_{n-1})\bigg) = (2\pi\hbar) \del(q_F-q_{n-1}),
+\ese
+to give (putting the definition of $Dq$, \Cref{eqn:PathIntegralMeasure}, in)
+\be 
+\label{eqn:FeynmanKernerlDiscreteTime}
+    \begin{split}
+        K(q_F,T;q_I,0) & = \lim_{n\to\infty}\bigg(\frac{-im}{\epsilon}\bigg)^{\frac{n-1}{2}}  \int \Bigg[ \prod_{i=1}^{n-1}\frac{dq_i}{\sqrt{2\pi\hbar}}\bigg] \del(q_F-q_{n-1}) \exp\bigg(\frac{i}{\hbar} S[q]\bigg) \\
+        & =  \lim_{n\to\infty} \sqrt{\frac{-im}{2\pi\hbar \epsilon}}  \int\Bigg[\prod_{i=1}^{n-2}\sqrt{\frac{-im}{2\pi\hbar \epsilon}} dq_i\Bigg] \exp\bigg(\frac{i}{\hbar} S[q]\bigg)\bigg|_{q_{n-1}=q_F},
+    \end{split}
+\ee
+where on the second line we have cone some rearrangement (notice the upper limit on the product changes because of delta function). So if we redefine $Dq$ appropriately, we get 
+\mybox{
+    \be
+    \label{eqn:FeynmanKernelPathIntegral}
+        K(q_F,T;q_I,0) = \int Dq \exp\bigg(\frac{i}{\hbar}S[q]\bigg)
+    \ee 
+}

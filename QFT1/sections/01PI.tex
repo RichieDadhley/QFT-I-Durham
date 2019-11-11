@@ -1,0 +1,339 @@
+\chapter{Path Integrals \& Feynman Kernel}
+
+This course is the study of path integrals in quantum mechanics (QM), with a particular emphasis on concepts related to quantum field theory (QFT). The first obvious questions to ask are "what are path integrals?" and "why do we care?" The first question will be answered as we go along, but allow us to answer the second now, providing motivation for the course. 
+
+\section{Why Do We Need Path Integrals?}
+
+When we are first taught QM it is almost always taught\footnote{If you were taught Path integral QM first, fair play.} in the language of Schr\"{o}dinger wavefunctions and Dirac bra-ket notation. The central equation is the Schr\"{o}dinger equation
+\bse 
+    i\frac{d}{dt}\ket{\psi} = \hat{H}\ket{\psi},
+\ese 
+where $\hat{H}$ is the operator version of the classical Hamiltonian. As such it is clear that this approach to QM is based on the \textit{Hamiltonian} formulation of classical mechanics.
+
+A person who is familiar with classical field theory, will know that there is a completely different way to study classical mechanics; in terms of the \textit{Lagrangian}. The path integral formulation approaches QM from this perspective. That is the Schr\"{o}dinger equation does not appear, but instead we study principles of least action and partition functions. 
+
+Now the latter generally involves \textit{a lot} of integral manipulation,\footnote{Trust me, you'll agree shortly.} and so you would be justified in asking "why on Earth would we put ourselves through all this pain when we could just use the Hamiltonian approach to QM?" The answer to that question is the name of this course... QFT. If you are reading these notes I think it's fair to assume you have had some introduction to QFT, and it was most definitely done in the language of so-called \textit{second quantisation}. This is the Hamiltonian approach to QFT and is obviously a very powerful tool. However, you will probably have been told about the perils of breaking manifest Lorentz invariance\footnote{For clarity, by "manifest" Lorentz invariant we mean you can just look at the equations and say "yup that's Lorentz invariant."} in this approach, and then having to make checks along the way to fix your abuse. For example, you have to introduce a factor of $1/\sqrt{2E_{\Vec{p}}}$ in order to get a Lorentz invariant measure, which then means you need to renormalise your states. 
+
+Of course this all works, but it would be nice if we could formulate the study of QFT in a manifestly Lorentz invariant way. This is where the path integral formulation comes in. Lagrangians are essentially \textit{defined} to be manifestly Lorentz invariant, so if we make them our central objects, we're good to go. I believe this is motivation enough for you to believe that its at least worth studying. So let's get to it.
+
+\br 
+    It is worth clarifying, it is not that the Hamiltonian doesn't appear in the path integral approach, its that we do not make it the central object. It is the Lagrangian that we are fundamentally interested in. 
+\er 
+
+\section{What Do We Want To Calculate?}
+
+For simplicity, in this course we will just focus on 1-dimensional mechanics, i.e. a particle with position $q(t)$ and momentum $p(t)$, with standard kinetic energy 
+\bse 
+    \frac{m\dot{q}^2}{2} = \frac{p^2}{2m},
+\ese 
+and potential $V(q)$. The generalisation to higher dimensions is not hard to see, but involves carrying around a bunch of sums/dot products, and as we shall see there's enough symbols as is so let's not make things worse. We therefore have a time-independent Hamiltonian 
+\be
+\label{eqn:Hamiltonian}
+    \hat{H} = \frac{\hat{q}^2}{2m} + \hat{V}(\hat{q})
+\ee 
+and action 
+\be
+\label{eqn:ActionAndLagrangian}
+    S = \int dt \, L(q,\dot{q}), \qquad L(q,\dot{q}) = \frac{m}{2}\dot{q}^2 - V(q) . 
+\ee 
+
+The basic object we will calculate using path integrals is the \textit{Feynman kernel}
+\mybox{
+    \be 
+    \label{eqn:FeynmanKernel}
+        K(q_F,t_F;q_I,t_I) := \bra{q_F} \hat{U}(t_F,t_I) \ket{q_I}, 
+    \ee 
+}
+\noindent where
+\be 
+\label{eqn:TimeEvolutionOperator}
+    \hat{U}(t,t_0) := \exp\bigg(-\frac{i}{\hbar} \hat{H}(t-t_0)\bigg)
+\ee 
+is the \textit{time evolution operator}. The Feynman kernel tells us the amplitude for a particle that is initially at position $q_I$ at time $t_I$ to evolve to position $q_F$ at time $t_F$, where of course $t_F>t_I$. As such, the Feynman kernel contains all the information about the dynamics of the system, which is why we care about it so much.
+
+\br 
+    Note that for a time-independent Hamiltonian, we have 
+    \bse 
+        \hat{U}(t,t_0) = \hat{U}(T) = \exp\bigg(-\frac{i}{\hbar}\hat{H}T\bigg),
+    \ese
+    where $T=t-t_0$. So the Feynman kernel becomes 
+    \bse 
+        K(q_f,t_F;q_I,t_I) = K(q_F,T;q_I,0),
+    \ese 
+    where $T=t_F-t_I$. We will use this from now on, unless otherwise specified.
+\er 
+
+The trick to getting the Feynman integral is to insert a complete set of states
+\bse 
+    \b1 = \int dq \bra{q}\ket{q}
+\ese 
+for both the initial and final state. Let's give examples for clarity.
+
+\bex 
+    The amplitude for some initial state $\ket{\psi}$ to evolve to some final state $\ket{\phi}$ in time $T$ is 
+    \bse 
+        \begin{split}
+            \bra{\phi} \hat{U}(T) \ket{\psi} & = \int dq_I dq_F \braket{\phi}{q_F} \bra{q_F} \hat{U}(T) \ket{q_I} \braket{q_I}{\psi} \\
+            & = \int dq_I dq_F \braket{\phi}{q_F} K(q_F,T;q_I,0) \braket{q_I}{\psi} \\
+            & = \int q_I q_F \, \phi^*(q_F) K(q_F,T;q_I,0) \psi(q_I),
+        \end{split}
+    \ese 
+    where at the last line we've used the usual QM notation for the position space representation of a state:
+    \bse 
+        \psi(q) := \braket{q}{\psi}.
+    \ese 
+\eex
+
+\bex 
+    Let's assume we have some state with initial wavefunction $\psi(q_I,t_I)$. We can find the expression for its evolution to some later wavefunction $\psi(q_F,t_F)$ in terms of the Feynman kernel:
+    \bse 
+        \begin{split}
+            \psi(q_F,t_F) & := \braket{q_F}{\psi(t_F} \\
+            & = \bra{q_F} \hat{U}(T) \ket{\psi(t_I)} \\
+            & = \int dq_I \bra{q_F} \hat{U}(T) \ket{q_I} \braket{q_I}{\psi(t_I)} \\
+            & =\int dq_I K(q_F,T;q_I,0) \psi(q_I,t_I),
+        \end{split}
+    \ese 
+    where we have used the position space representation definition given at the end of the last example and also the definition of the time evolution operator, 
+    \bse 
+        \ket{\psi(t_2)} = \hat{U}(t_2,t_1)\ket{\psi(t_1)},
+    \ese 
+    along with $T=t_F-t_I$.
+\eex 
+
+To give some foresight, we will also use the Feynman kernel to calculate what are called \textit{time-ordered correlations functions} or \textit{Green's functions}, 
+\bse 
+    G(t_1,t_2,...,t_N) := \bra{\Omega} \cT \big\{\hat{q}(t_1)\hat{q}(t_2) ... \hat{q}(t_N) \big\}\ket{\Omega},
+\ese 
+where $\ket{\Omega}$ is the ground state of our system, and $\cT$ is the time ordering operator, which essentially orders the Heisenberg\footnote{As otherwise the operators are time independent} picture operators in increasing time, e.g. 
+\bse 
+    \cT\big\{\hat{\cO}_1(t_1)\hat{\cO}_2(t_2)\big\} = \begin{cases}
+        \hat{\cO}_1(t_1)\hat{\cO}_2(t_2) & \text{if } t_1>t_2 \\
+        \hat{\cO}_2(t_2)\hat{\cO}_1(t_1) & \text{if } t_2>t_1
+    \end{cases}.
+\ese 
+
+\bnn 
+    From now on I am going to drop the hats on operators in order to save typing. It should be reasonably clear from the context, and whenever potential confusion might arise I shall try be explicit. 
+\enn 
+
+\section{Motivating The Path Integral Approach}
+
+So what is a path integral? Well as the name suggests, it is an integral over paths, but what do we mean by this and what's it got to do with the Feynman kernel? Well let's consider the double slit experiment. The interference pattern this generated can be explained in terms of waves, or we can explain it in terms of particles, provided we put a phase on each particle path. That is, the total amplitude to go from the source to a particular point is given by the sum of the amplitudes of the two separate paths, as indicated in the figure below. 
+
+\begin{center}
+    \btik 
+        \node at (0,0) {\Huge{$*$}};
+        \node at (0,-0.5) {Source};
+        \draw[thick] (2,2) -- (2,1.1);
+        \draw[thick] (2,0.9) -- (2,-0.9);
+        \draw[thick] (2,-1.1) -- (2,-2);
+        \midarrow (0,0) -- (2,1);
+        \midarrow (2,1) -- (6,0.5);
+        \node at (4,1.2) {Path 1, $\cA_1$};
+        \midarrow (0,0) -- (2,-1);
+        \midarrow (2,-1) -- (6,0.5);
+        \node at (4,-0.8) {Path 2, $\cA_2$};
+        \draw[fill=black] (6,0.5) circle [radius=0.07] node [right] {$\cA=\cA_1+\cA_2$};
+    \etik 
+\end{center}
+
+\subsection{Zee's "Wise Guy"}
+
+The story then goes as follows:\footnote{I'm paraphrasing Zee's book here, as I love this description.} a teacher had just finished explaining the above idea to his class when a student, going by the name of Feynman, chimed in and said "Excuse me sir, but what happens if I put another slit in my screen?" The lecturer then replied "We just add another contribution" while drawing the following diagram
+
+\begin{center}
+    \btik 
+        \node at (0,0) {\Huge{$*$}};
+        \node at (0,-0.5) {Source};
+        \draw[thick] (2,2) -- (2,1.1);
+        \draw[thick] (2,0.9) -- (2,-0.4);
+        \draw[thick] (2,-0.6) -- (2,-0.9);
+        \draw[thick] (2,-1.1) -- (2,-2);
+        \midarrow (0,0) -- (2,1);
+        \midarrow (2,1) -- (6,0.5);
+        \midarrow (0,0) -- (2,-1);
+        \midarrow (2,-1) -- (6,0.5);
+        \midarrow (0,0) -- (2,-0.5);
+        \midarrow (2,-0.5) -- (6,0.5);
+        \draw[fill=black] (6,0.5) circle [radius=0.07] node [right] {$\cA=\cA_1+\cA_2+ \cA_3$};
+    \etik 
+\end{center}
+
+The professor then went back to what he was about to say, when Feynman chimed in again: "What if I now poke another hole in my screen? Then another, and another after that?" The professor at this point had had enough and simply said "Ok wise guy, I think it's clear to everyone that you simply sum over all the different path amplitudes. Now where was I..." But before he could continue, yup that's right Feynman chimed in again. "What about if I include another screen?" Slightly irritated, but bound by his profession to be polite, the professor drew the following diagram
+
+\begin{center}
+    \btik 
+        \node at (0,0) {\Huge{$*$}};
+        \node at (0,-0.5) {Source};
+        \draw[thick] (2,2) -- (2,1.1);
+        \draw[thick] (2,0.9) -- (2,-0.4);
+        \draw[thick] (2,-0.6) -- (2,-0.9);
+        \draw[thick] (2,-1.1) -- (2,-2);
+        %
+        \midarrow (0,0) -- (2,1);
+        \midarrow (0,0) -- (2,-1);
+        \midarrow (0,0) -- (2,-0.5);
+        %
+        \draw[thick] (4,2) -- (4,1.5);
+        \draw[thick] (4,1.3) -- (4,-0.2);
+        \draw[thick] (4,-0.4) -- (4,-1.3);
+        \draw[thick] (4,-1.5) -- (4,-2);
+        %
+        \midarrow (4,1.4) -- (6,0.5);
+        \midarrow (4,-0.3) -- (6,0.5);
+        \midarrow (4,-1.4) -- (6,0.5);
+        %
+        \midarrow (2,1) -- (4,1.4);
+        \midarrow (2,1) -- (4,-0.3);
+        \midarrow (2,1) -- (4,-1.4);
+        \midarrow (2,-1) -- (4,1.4);
+        \midarrow (2,-1) -- (4,-0.3);
+        \midarrow (2,-1) -- (4,-1.4);
+        \midarrow (2,-0.5) -- (4,1.4);
+        \midarrow (2,-0.5) -- (4,-0.3);
+        \midarrow (2,-0.5) -- (4,-1.4);
+        %
+        \draw[fill=black] (6,0.5) circle [radius=0.07] node [right] {$\cA=\sum$All Paths};
+    \etik 
+\end{center}
+
+Now before Feynman could chime in again the professor said "And before you ask, if I add another screen, I just do the same thing and sum over all paths again." However Feynman had one more, very important, chime in. "Ok Sir," he said, ignoring the frustrated look on the professor's face, "what if I include an infinite number of screens and on each screen I poke an infinite number of holes, so that in total there are no screens and no holes?" The professor just laughed and continued with the rest of his course. 
+
+But as Zee points on, this last comment has a very important result. If we want to find the amplitude for a particle to propagate from some source and arrive at a detector, we must consider \textit{every single path} connecting the two, and sum over all their amplitudes.
+\begin{center}
+    \btik 
+        \node at (0,0) {\Huge{$*$}};
+        %\node at (0,-0.5) {Source};
+        \draw[fill=black] (6,0.5) circle [radius=0.07];
+        \midarrow (0,0) .. controls (2,1) and (4,-2) .. (6,0.5);
+        \midarrow (0,0) .. controls (2,-3) and (4,-2) .. (6,0.5);
+        \midarrow (0,0) .. controls (2,1) and (4,2) .. (6,0.5);
+        \midarrow (0,0) .. controls (4,-1) and (5,3) .. (6,0.5);
+        \midarrow (0,0) .. controls (3,-3) and (4,1) .. (6,0.5);
+    \etik 
+\end{center}
+\noindent However there is obviously an infinite number of paths connecting the two and so the result is not a sum, but an integral. And thus the path integral is born.
+
+\br 
+\label{rem:SmoothPaths}
+    On a technical note, we require the paths we integrate over to be smooth, that is continuous and infinitely differentiable. This is a reasonable thing to assume, as a discontinuous line would correspond to a particle `teleporting' while a non-continuous one would mean its velocity was discontinuous, which is also a problem.  
+\er 
+
+\subsection{Relation To Feynman Kernel}
+
+Ok so we've answered the first question about what a path integral is, now we just need to see how it's related to the Feynman kernel. Well in the case of 1-dimensional QM the analogy is that each screen corresponds to a fixed time and the points each slit a position at that time. So the path between two slits is telling us the amplitude to go from one position at one time to another position at a later time. Well this is just the Feynman kernel. So in the `limit' that we remove all the screens, our Feynman kernel is an integral over all the different paths through spacetime connecting the initial position at initial time to the final position at the final time. 
+
+\br 
+    Note to go to a higher dimensional case is easy, simply replace the slits with a $d$-dimensional sheet with holes poked in it. 
+\er 
+
+\section{Hamiltonian Phase Space}
+
+Let's calculate something now. It might not be obvious at first what we're calculating, but it will become clear next lecture. In order to do this, first you need to complete the following exercise.
+
+\bbox 
+    Given that in the position space representation, a wavefunction for a momentum eigenstate with momentum $p$ is 
+    \bse 
+        \psi_p(q) := \braket{q}{p}, \qquad -i\hbar\frac{d}{dt}\psi_p(q) = p \psi_p(q),
+    \ese 
+    show that 
+    \be 
+    \label{eqn:pqInnerProduct}
+        \braket{p}{q} = (\braket{q}{p})^* = \frac{1}{\sqrt{2\pi\hbar}} \exp\bigg(-\frac{i}{\hbar} pq\bigg).
+    \ee 
+    \textit{Hint: Use the differential equation above to guess the form of $\psi_p(q)$ and then impose a normalisation condition.}
+\ebox 
+
+So what we want to find is 
+\bse 
+    \bra{p_F}U(T)\ket{q_I} = \bra{p_F} e^{-\frac{i}{\hbar}H}\ket{q_I}.
+\ese 
+Note this is \textit{not} the Feynman kernel as we have $p_F$ for the left hand state. With the above intuition in mind, let's break the the time interval up into $n$ equal intervals with 
+\bse 
+    t_i = t_I + \frac{\epsilon}{n}, \qquad \text{with} \qquad \epsilon = \frac{T}{n}.
+\ese 
+Note that this gives us $t_0=t_I$ and $t_n=t_F$, which is obviously what we want. We shall therefore relabel $p_F=p_n$ and $q_I=q_0$. Using the $\epsilon$ definition we can rewrite the our expression as
+\bse 
+    \bra{p_n} e^{(-\frac{i}{\hbar}H\epsilon)^n}\ket{q_0} = \bra{p_n} \underbrace{e^{-\frac{i}{\hbar}H\epsilon} e^{-\frac{i}{\hbar}H\epsilon} ... e^{-\frac{i}{\hbar}H\epsilon}}_{n\text{-times}} \ket{q_0} .
+\ese 
+Now we employ our trick of inserting the identity as a complete set of states. In fact we insert 
+\bse 
+    \b1 = \b1^2 = \int dq \ket{q}\bra{q} \int dp \ket{p}\bra{p} = \int \frac{dqdp}{\sqrt{2\pi\hbar}} e^{\frac{i}{\hbar}pq},
+\ese 
+where we have used \Cref{eqn:pqInnerProduct}. We do this in-between every exponential term. This gives us\footnote{And so begins the painful job of following terms around...}
+\bse 
+    \bra{p_n}U(T)\ket{q_0} = \int \Bigg[ \prod_{i=1}^{n-1} \frac{dq_idp_i}{\sqrt{2\pi\hbar}} e^{\frac{i}{\hbar}p_iq_i} \Bigg] \bra{p_n} e^{-\frac{i}{\hbar}H\epsilon}\ket{q_{n-1}} \bra{p_{n-1}} e^{-\frac{i}{\hbar}H\epsilon}\ket{q_{n-2}} ... \bra{p_1} e^{-\frac{i}{\hbar}H\epsilon}\ket{q_0}.
+\ese 
+We now take the limit $n\to\infty$ (an infinite number of screens), this gives $\epsilon\to 0$, and so we can Taylor expand the exponentials:
+\bse 
+    e^{-\frac{i}{\hbar}H\epsilon} = \b1 - \frac{i}{\hbar} H\epsilon + \cO\bigg(\frac{1}{n^2}\bigg).
+\ese 
+Then using \Cref{eqn:Hamiltonian}, we have\footnote{Here I reinsert the hats for clarity} 
+\bse 
+    \begin{split}
+        \bra{p_i}\hat{H}\ket{q_{i-1}} & = \frac{1}{2m}\bra{p_i}\hat{q}^2\ket{q_{i-1}} + \bra{p_i} \hat{V}(\hat{q})\ket{q_{i-1}} \\
+        & = \bigg(\frac{q_{i-1}^2}{2m} + V(q_{i-1})\bigg)\braket{p_i}{q_{i-1}} \\
+        & = \frac{1}{\sqrt{2\pi\hbar}} H(p_i,q_{i-1}) e^{-\frac{i}{\hbar}p_iq_{i-1}}, 
+    \end{split}
+\ese 
+which gives us 
+\bse 
+    \bra{p_i}e^{-\frac{i}{\hbar}\hat{H}\epsilon}\ket{q_{i-1}} = \frac{1}{\sqrt{2\pi\hbar}} \exp\Bigg(-\frac{i}{\hbar} \big( p_iq_{i-1} +\epsilon H(p_i,q_{i-1})\big)\bigg) + \cO\bigg(\frac{1}{n^2}\bigg).
+\ese 
+Putting this into our expression above, we get 
+\bse 
+    \begin{split}
+        \bra{p_n}U(T)\ket{q_0} = \frac{1}{\sqrt{2\pi\hbar}} \int \Bigg[ \prod_{i=1}^{n-1}\frac{dq_idp_i}{2\pi\hbar}\bigg] \exp\Bigg\{ & \frac{i}{\hbar}\bigg[ \sum_{i=1}^{n-1} \bigg(\frac{p_i(q_i-q_{i-1})}{\epsilon} - H(p_i,q_{i-1})\bigg) \epsilon \\
+        & - p_nq_{n-1} - H(p_n,q_{n-1})\epsilon\bigg]\Bigg\} + \cO\bigg(\frac{1}{n^2}\bigg). 
+    \end{split}
+\ese 
+We then take the limit $n\to\infty$ and define the path integral measure
+\mybox{
+    \be 
+    \label{eqn:PathIntegralMeasure}
+        \int DpDq := \lim_{n\to\infty} \int \Bigg[ \prod_{i=1}^{n-1}\frac{dq_i}{\sqrt{2\pi\hbar}}\frac{dp_i}{\sqrt{2\pi\hbar}}\Bigg],
+    \ee 
+}
+\noindent and then argue that $q_{n-1}=q_n$ in this limit and also use 
+\bse 
+    \lim_{n\to\infty} \frac{q_i-q_{i-1}}{\epsilon} = \dot{q}(t_i)
+\ese 
+i.e. the velocity of the particle,\footnote{Note this is well defined given \Cref{rem:SmoothPaths}} to finally give us
+\mybox{
+    \be 
+    \label{eqn:pUq}
+        \bra{p_n}U(T)\ket{q_0} = \frac{1}{\sqrt{2\pi\hbar}} \int DpDq \exp\bigg[ \frac{i}{\hbar} \bigg(\int_{t_I}^{t_F} dt \Big(p(t)\dot{q}(t) - H(p,q)\Big) - p(t_F)q(t_F)\bigg) \bigg].
+    \ee
+}
+
+\section{Wick Rotation}
+
+As promised above, next lecture we will see why we have bothered to derive \Cref{eqn:pUq}, but in order to do that we will need to use a very popular trick, the \textit{Wick rotation}, and we conclude this lecture with this. 
+
+As we will see, we are going to take the limit $t\to\infty$ next lecture, and so we need to work out if such a thing is well defined for our time-evolution operator. That is we want to ask what happens to\footnote{Note we've inserted $\b1=\int dE \ket{E}\bra{E}$.}
+\be 
+\label{eqn:UWickRotation}
+    U(t)\ket{\psi} = \int dE e^{-\frac{i}{\hbar}Ht} \ket{E}\braket{E}{\psi} = \int dE e^{-\frac{i}{\hbar}Et} \ket{E}\braket{E}{\psi}
+\ee 
+in the limit $t\to\infty$. Well consider the analytic continuation of $t$ to the complex plane:
+\be 
+\label{eqn:WickRotation}
+    t \to e^{-i\theta} t, \qquad \theta\in [0,\pi/2].
+\ee  
+This is what we call a Wick rotation, and we note that $\theta=0$ changes nothing, but $\theta=\pi/2$ takes our exponential in \Cref{eqn:UWickRotation} from being complex to being real. People often refer to this as "going to Euclidean time", for obvious reasons. Ok so what happens now, well our expression becomes (setting $\hbar=1$ for this calculation)
+\bse 
+    U(t)\ket{\psi} = \int dE e^{-i\cos\theta Et} e^{-\sin\theta Et} \ket{E}\braket{E}{\psi}.
+\ese 
+Now if we assume we have a unique ground state $\ket{\Omega}$, scaled such that $\braket{\Omega}{\psi} \neq 0$ and that we have a mass gap,\footnote{That is the next energy level is strictly greater then $E_{\Omega}$} then the second exponential in the above expression suppresses all other energy states in our limit. That is, 
+\be 
+\label{eqn:UWickRotationLimit}
+    \lim_{t\to\infty} U(t)\ket{\psi} = e^{-i\cos\theta E_{\Omega}t} e^{-\sin\theta E_{\Omega}t} \ket{\Omega}\braket{\Omega}{\psi}.
+\ee 
+
+\bbox 
+    Convince yourself that similarly to \Cref{eqn:UWickRotationLimit}, we have 
+    \bse 
+        \lim_{t\to\infty} \bra{\psi}U(t) = e^{-i\cos\theta E_{\Omega}t} e^{-\sin\theta E_{\Omega}t} \bra{\Omega}\braket{\psi}{\Omega}.
+    \ese 
+\ebox 

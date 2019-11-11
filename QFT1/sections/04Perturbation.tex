@@ -1,0 +1,684 @@
+\chapter{SD For SHO \& Perturbation Theory}
+
+\section{Schwinger-Dyson For SHO}
+
+We ended last lecture the the derivation of the Schwinger-Dyson equation. We start this lecture by showing how it works for the example of a SHO system. Here the potential is 
+\bse 
+    V(q) = \frac{m}{2}\omega^2q^2, \qquad \implies \qquad V'(q) = m\omega^2 q,
+\ese 
+and so we get a nice linear equation for the Schwinger-Dyson formula:
+\bse
+    \bigg[-\frac{im}{\hbar}\bigg( \omega^2 + \frac{d^2}{dt^2}\bigg) \frac{\del}{\del J(t)} + J(t) \bigg]Z[J] = 0.
+\ese 
+Using the ansatz $Z[J] = e^{W[J]}$,\footnote{Here we have used the fact that $Z[0]=\braket{0}{0}=1$ for a normalisable theory, otherwise we have to use $Z[J]=Ae^{W[J]}$.} we get 
+\bse 
+    \frac{im}{\hbar} \bigg( \frac{d^2}{dt^2}+ \omega^2\bigg) \frac{\del W[J]}{\del J(t)} = J(t),
+\ese 
+so if we take a second functional derivative w.r.t. $J(s)$, we get 
+\be 
+\label{eqn:WEquation}
+    \frac{im}{\hbar} \bigg(\frac{d^2}{dt^2}+\omega^2\bigg) \frac{\del^2 W[J]}{\del J(s)\del J(t)} = \del(s-t).
+\ee 
+Now we use the definition of the partition function as the sum of $N$-point Green's functions along with the result 
+\bse 
+    G(t) = \bra{\Omega}q(t) \ket{\Omega} = 0 
+\ese
+for the SHO we get 
+\bse 
+    \begin{split}
+        W[J] & = \ln Z \\
+        & = \ln \bigg( 1 + \frac{1}{2}\int dtds J(t)J(s)G(t,s) + \widetilde{W}[J]\bigg) \\
+        & = \frac{1}{2}\int dtds J(t)J(s)G(t,s) + \widetilde{W}[J],
+    \end{split}
+\ese 
+where
+\be 
+\label{eqn:WTildeEquation}
+    \widetilde{W}[J] = \sum_{n=3}^{\infty} \frac{1}{n!}\int dt_1...dt_n J(t_1)...J(t_n) G(t_1,...,t_n) 
+\ee 
+and we have used
+\bse 
+    \ln (1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} + ...
+\ese 
+So we conclude that the $2$-point Green's function is indeed a Green's function with the operator 
+\be
+\label{eqn:2PointGreensFunction}
+    \frac{im}{\hbar} \bigg(\frac{d^2}{dt^2} + \omega^2\bigg) G(t,s) = \del(s-t). 
+\ee 
+We use our intuition from solving differential equations to suggests the ansatz 
+\bse 
+    G(t,s) = C e^{-i\omega |s-t|},
+\ese 
+where we take the modulus as we know that $G(t,s)=G(s,t)$. We can actually go one step further and use the other known fact that 
+\be
+\label{eqn:2PointExpectationValue}
+    G(0,0) = \bra{\Omega}q^2\ket{\Omega} = \frac{\hbar}{2m\omega}
+\ee
+for the SHO to guess 
+\bse 
+    G(t,s) = \frac{\hbar}{2m\omega} e^{\pm i\omega |s-t|}.
+\ese 
+
+Ok let's check this does indeed satisfy \Cref{eqn:2PointGreensFunction}. We start by rewriting our ansatz as 
+\bse 
+    G(t,s) = \begin{cases}
+        A_+\cos(|s-t|\omega) + B_+\sin(|s-t|\omega) & s>t \\
+        A_-\cos(|s-t|\omega) + B_-\sin(|s-t|\omega) & t>s.
+    \end{cases}
+\ese 
+It follows immediately from the symmetry $G(t,s)=G(s,t)$ that we require 
+\bse 
+    A_+=A_- \qand B_+=B_-,
+\ese 
+so we can just write 
+\bse 
+    G(t,s) = A\cos(|s-t|\omega) + B\sin(|s-t|\omega)
+\ese 
+We get the value of $A$ straight from \Cref{eqn:2PointExpectationValue}, 
+\bse 
+    A = G(0,0) = \frac{\hbar}{2m\omega}.
+\ese 
+Now we want the action of the derivative operator in \Cref{eqn:2PointGreensFunction} to give a delta function, which is discontinuous. Therefore, using 
+\bse 
+    \cos{|x|} =\cos x,
+\ese 
+which is smooth,\footnote{That is infinitely differentiable, with continuous result.} we know that it is the $\sin$ term that gives us it. Now away from $s=t$ we have a smooth result,  so we only need look at the region $|s-t|\approx 0$, and therefore we can Taylor expand: 
+\bse 
+    \frac{im}{\hbar} \bigg(\frac{d^2}{dt^2} + \omega^2\bigg)G(t,s) = \frac{im}{\hbar} \bigg(\frac{d^2}{dt^2} + \omega^2\bigg) B|s-t|\omega + \cO(\omega^3)
+\ese 
+Now we claim that we don't need to consider the $\omega^2$ part of the operator as this will cancel with the $\cO(\omega^3)$ term in the expansion.\footnote{That is we would get a term $\frac{d^2}{dt^2}\big(-\frac{\omega^3}{3!}|s-t|^3\big)$, which cancels the $\omega^2|s-t|\omega$ term.} Then using the fact 
+\bse 
+    \frac{d}{dx} |x| = \frac{x}{|x|} = \begin{cases} 
+        1 & x >0 \\
+        -1 & x <0 
+        \end{cases} \qquad \implies \qquad \frac{d^2}{dx^2}|x| = 2\del(x),
+\ese
+we get 
+\bse 
+    \frac{im}{\hbar} \bigg(\frac{d^2}{dt^2} + \omega^2\bigg)G(t,s) = \frac{im}{\hbar} B\omega 2\del(s-t),
+\ese 
+so comparing to \Cref{eqn:2PointGreensFunction} we conclude 
+\bse 
+    B = -\frac{i\hbar}{2m\omega}
+\ese 
+So altogether we have 
+\be
+\label{eqn:2PointFunctionSHO}
+    G(t,s) = \frac{\hbar}{2m\omega} \big( \cos(|t-s|\omega) - i\sin(|t-s|\omega) \big) = \frac{\hbar}{2m\omega} e^{-i|s-t|\omega}.
+\ee 
+
+Now what about $\widetilde{W}[J]$? Well we need it to satisfy 
+\bse 
+    \frac{im}{\hbar}\bigg( \frac{d^2}{dt^2} + \omega^2\bigg) \frac{\del^2 \widetilde{W}[J]}{\del J(s)\del J(t)} = 0,
+\ese 
+otherwise we would get another term on the right-hand side of \Cref{eqn:WEquation}. Using the definition \Cref{eqn:WTildeEquation} and the above calculation it's clear we'll get something of the form 
+\bse 
+    G(t_1,...,t_n) = \big( A_1 \cos(\omega t_1) + B_1\sin(\omega t_1)\big) ... \big( A_n \cos(\omega t_n) + B_n\sin(\omega t_n)\big),
+\ese 
+but we also require that $G(t_1,...,t_n)$ is totally symmetric, and there is no way to make the above expression totally symmetric apart from in the trivial case 
+\bse 
+    A_1 = ... = A_n = B_1 = ... = B_n = 0,
+\ese
+which just leaves us with 
+\bse 
+    W[J] = \frac{1}{2}\int dt ds J(t_1)J(t_2) G(t_1,t_2), 
+\ese 
+and so we conclude that the partition function is\footnote{The subscripts $0$ will make sense in a minute.}
+\be  
+\label{eqn:PartitionFunctionSHO}
+    Z_0[J] = \exp\bigg(\frac{1}{2}\int dt_1 dt_2 J(t_1)G_0(t_1,t_2)J(t_2)\bigg),
+\ee 
+with $G_0(t_1,t_2)$ given by \Cref{eqn:2PointFunctionSHO}.
+
+\section{Perturbation Theory}
+
+In order to make the perturbation calculations we introduce some new notation, as listed below. 
+\begin{itemize}
+    \item $J_1 = J_{t_1} := J(t)$, 
+    \item $(G_0)_{t_1,t_2} := G_0(t_1,t_2)$, 
+    \item $J\cdot G_0 \cdot J := \int dt_1dt_2 J_1 (G_0)_{t_1,t_2} J_2$, 
+    \item $(J\cdot G_0)_2 := \int dt_1 J_1(G_0)_{t_1,t_2}$, and similarly for $(G_0\cdot J)_1$.
+\end{itemize}
+
+Now let's suppose we want to study some system that can be expressed as a perturbation around some known solution, that is the Lagrangian is of the form 
+\bse 
+    L(q,\dot{q})= L_0(q,\dot{q}) - V(q),
+\ese 
+where $L_0(q,\dot{q})$ is our known system and $V(q)$ is a `small' perturbation (i.e. the coupling constant that appears in it is small). The partition function for the known system is given by 
+\bse 
+    Z_0[J] = \cN_0 \int Dq \, \exp\bigg(\frac{i}{\hbar}S_0[q] + \int dt J(t) q(t)\bigg)
+\ese 
+where $\cN_0$ is some normalisation constant. The full theory then has partition function 
+\bse 
+    Z[J] = \widetilde{\cN} \int Dq \exp\bigg(\frac{i}{\hbar} S_0[q] + \int dt J(t) q(t) -\frac{i}{\hbar} \int dt V\big(q(t)\big) \bigg).
+\ese 
+We then employ our clever trick used in the derivation of the Schwinger-Dyson equation and trade the argument $q(t)$ of $V$ for a functional variation w.r.t. $J(t)$ and pull it outside the path integral, giving us 
+\bse 
+    \begin{split}
+        Z[J] & = \exp\bigg[ -\frac{i}{\hbar}\int dt V\bigg(\frac{\del}{\del J(t)}\bigg) \bigg] \widetilde{\cN} \int Dq \exp\bigg(\frac{i}{\hbar} S_0[q] + \int dt J(t)q(t) \bigg) \\
+        & = \cN \exp\bigg[ -\frac{i}{\hbar}\int dt V\bigg(\frac{\del}{\del J(t)}\bigg) \bigg] Z_0[J],
+    \end{split}
+\ese 
+where $\cN = \widetilde{\cN}/\cN_0$. Now note that $Z_0[J]$ is independent of the coupling constants (i.e. the parameters in $V(q)$) and so we get a perturbation series by expanding the exponential on the last line above to the required power of coupling.\footnote{If this idea of `power of coupling' doesn't mean anything to you, hopefully it will make sense in a moment, if not reading an introduction to QFT from the second-quantisation approach and Feynman diagrams should clear up any confusion.}
+
+Ok this is all rather abstract, so let's look at an example. 
+
+\bex 
+    Let 
+    \bse 
+        L = \underbrace{\frac{m}{2}\dot{q}^2 - \frac{m}{2}\omega^2q^2}_{L_0 = L_{SHO}} - \underbrace{\frac{\l}{3!}q^3}_{V(q)},
+    \ese 
+    where we have identified the simply harmonic oscillator as our known system. For clarity with the footnote above, $\l$ here is our coupling constant and we take it to be small. Roughly speaking, it corresponds to the coupling strength for $3$ particles interact (as it comes with $q^3$). In the Taylor expansion the $\l^n$ term will come with $q^{3n}$, and so corresponds to the interaction of $3n$ particles, and this is what we mean by expanding to the relevant power of the coupling constant --- just truncate your expansion to the order of particle interactions you want to consider. 
+    
+    We have already found the partition function for the SHO, \Cref{eqn:PartitionFunctionSHO}, and so (using the notation introduced at the start of this section) the partition function for the full theory is
+    \bse 
+        Z[J] = \cN \exp\Bigg[-\frac{i}{\hbar} \frac{\l}{3!} \int dt \bigg(\frac{\del^3}{\del J^3(t)}\bigg)\Bigg] \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg).
+    \ese 
+    Let's just consider coupling to first order, we therefore get 
+    \bse 
+        Z[J] = \cN \bigg[ 1 - \frac{i}{\hbar} \frac{\l}{3!} \int dt   \bigg(\frac{\del^3}{\del J^3(t)}\bigg) + \cO(\l^2)\bigg]\exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg).
+    \ese 
+    We need to find the functional derivatives, and we find this by considering them to be analogous to `regular derivatives' and use the chain rule:\footnote{Note by the symmetry of $G_0$ we have $(J\cdot G_0)_{t_2} = (G_0\cdot J)_{t_1}$, so we can remove the factors of $1/2$ under derivative.}
+    \bse 
+        \begin{split}
+            \frac{\del^3}{\del J^3(t)} \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg) & = \frac{\del^2}{\del J^2(t)} \bigg[ (J\cdot G_0)_t \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg) \bigg] \\
+            & = \frac{\del}{\del J(t)} \bigg[ \Big((G_0)_{t,t} + (J\cdot G_0)^2_t \Big) \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg) \bigg] \\
+            & = \Big[ (G_0)_{t,t}(J\cdot G_0)_t + 2(G_0)_{t,t}(J\cdot G_0)_t  + (J\cdot G_0)_t^3\Big] \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg) \\
+            & = \Big[ 3(G_0)_{t,t}(J\cdot G_0)_t + (J\cdot G_0)_t^3\Big] \exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg).
+        \end{split}
+    \ese 
+    So plugging this into our expression for the partition function, we get 
+    \be 
+    \label{eqn:PartitionFunctionLambdaCubed}
+        Z[J] = \cN \Bigg[ 1 - \frac{i}{\hbar} \l \int dt \bigg( \frac{1}{2}(G_0)_{t,t}(J\cdot G_0)_t + \frac{1}{3!}(J\cdot G_0)_t^3\bigg) \Bigg]\exp\bigg(\frac{1}{2} J \cdot G_0 \cdot J \bigg).
+    \ee 
+    Finally we can obtain the normalisation coefficient by looking at the $0$-point function (i.e. $Z[0]$) and requiring it be one, This gives 
+    \bse 
+        1 = \cN \big( 1 + 0\big) e^{0} \qquad \implies \qquad \cN = 1 + \cO(\l^2).
+    \ese 
+\eex 
+
+\subsection{Feynman Diagrams}
+
+To those familiar with the Hamiltonian approach to QFT, the title of this subsection is probably a huge relief. We can indeed get some Feynman rules from the path integral approach, however one should note that these rules are specific to this case, and so some symbols will appear that you do not see in the second-quantisation Feynman diagrams. We use the above example as a proxy to state the Feynman rules and leave it to the reader to imagine how they adapt to other cases (it is exactly as you would think). 
+
+\mybox{
+\begin{center}
+	\begin{tabular}{@{} C{4cm} C{4cm} C{4cm} @{}}
+		\toprule
+		 Part Of Diagram & Maths Expression & Comment \\
+		\midrule 
+		\btik 
+		    \draw[thick] (0,0) -- (2,0); 
+		\etik  & \bse G_0(t_1,t_2) \ese  & $t_1/t_2$ are the end points, usually we do not explicitly label them.\footnote{They are always integrated over so just match to the integration variables.} \\
+		\btik 
+		    \draw[thick] (0,0) circle [radius=0.1cm]; 
+		\etik  & \bse \int ds J(s) \ese & The integrand includes the other factors from the diagram. \\
+			\btik 
+		    \draw[fill=black] (0,0) circle [radius=0.1cm];
+		    \draw[thick] (0,0) -- (0,0.75);
+		    \draw[thick, rotate around={120:(0,0)}] (0,0) -- (0,0.75);
+		    \draw[thick, rotate around={-120:(0,0)}] (0,0) -- (0,0.75);
+		\etik  & \bse -\frac{i\l}{\hbar}\int dt  \ese & This is the interaction vertex specifically for our example.\footnote{Note we don't put the $3!$ here, this comes from the symmetry factors, see blow.} This clearly changes depending on the theory.  \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+}
+
+As with the second-quantisation approach, we just draw all the possible Feynman diagrams we can at the relevant order of coupling and then obtain the maths expression using the rules above (and also accounting for the symmetry factors). Let's do the example for the previous example. 
+
+\bex 
+    We represent the above calculation in Feynman diagrams as
+    \begin{center}
+        \btik 
+            \node at (0,0) {\Large{$\frac{1}{\cN}Z[J] = \Bigg[ 1 \, +$}};
+            \draw[thick] (2.25,0) circle [radius=0.5cm];
+            \draw[fill=black] (2.75,0) circle [radius=0.1cm]; 
+            \draw[thick] (2.75,0) -- (3.75,0);
+            \draw[thick, fill=white] (3.75,0) circle [radius=0.1cm];
+            \node at (4.4,0) {\Large{$+$}};
+            \draw[fill=black] (5.5,0) circle [radius=0.1cm];
+		    \draw[thick] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white] (5.5,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={120:(5.5,0)}] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white, rotate around={120:(5.5,0)}] (5.5,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={-120:(5.5,0)}] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white, rotate around={-120:(5.5,0)}] (5.5,0.75) circle [radius=0.1cm];
+		    \node at (8,0) {\Large{$+ \, \cO(\l^2) \Bigg] \exp\bigg($}};
+		    \draw[thick] (9.75,0) -- (10.75,0);
+		    \draw[thick, fill=white] (9.75,0) circle [radius=0.1cm];
+		    \draw[thick, fill=white] (10.75,0) circle [radius=0.1cm];
+		    \node at (11,0) {\Large{$\bigg)$}};
+        \etik  
+    \end{center}
+    We can then work out the symmetry factors by looking at the diagrams:
+    \begin{center}
+	\begin{tabular}{@{} C{4cm} C{4cm} C{4cm} @{}}
+		\toprule
+		 Diagram & Symmetry Factor & Why \\
+		\midrule 
+		\btik 
+		    \draw[thick] (2.25,0) circle [radius=0.5cm];
+            \draw[fill=black] (2.75,0) circle [radius=0.1cm]; 
+            \draw[thick] (2.75,0) -- (3.75,0);
+            \draw[thick, fill=white] (3.75,0) circle [radius=0.1cm];
+		\etik & \bse \frac{1}{2} \ese & We can reflect the loop about the horizontal axis. \\
+		\btik 
+		    \draw[fill=black] (5.5,0) circle [radius=0.1cm];
+		    \draw[thick] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white] (5.5,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={120:(5.5,0)}] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white, rotate around={120:(5.5,0)}] (5.5,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={-120:(5.5,0)}] (5.5,0) -- (5.5,0.75);
+		    \draw[thick, fill=white, rotate around={-120:(5.5,0)}] (5.5,0.75) circle [radius=0.1cm];
+		\etik & \bse \frac{1}{3!} \ese & Permutations of the three lines. \\
+		\btik 
+		    \draw[thick] (9.75,0) -- (10.75,0);
+		    \draw[thick, fill=white] (9.75,0) circle [radius=0.1cm];
+		    \draw[thick, fill=white] (10.75,0) circle [radius=0.1cm];
+		\etik & \bse \frac{1}{2} \ese & Can reflect in a vertical line down the middle. \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+\eex 
+
+\bbox 
+    Convince yourself that the diagram given above does indeed give us \Cref{eqn:PartitionFunctionLambdaCubed}. 
+\ebox 
+
+\subsection{Green's Functions From Feynman Diagrams}
+
+Recall that we can obtain the $N$-point Green's function by taking functional derivatives w.r.t. $J(t)$ of the partition function, \Cref{eqn:GreensFunctionsFromParition}:
+\bse 
+    G(t_1,..,t_N) = \frac{\del^N Z[J]}{\del J(t_1) ... \del J(t_N)} \bigg|_{J=0}.
+\ese
+We now want to see how to do this in terms of our diagrams. Well the hollow circles represent integrated factors of $J(s)$ in the diagram, so our functional varitation will remove this circle and replace it with the derivative $J$s argument, i.e. we use, for example,
+\bse 
+    \frac{\del^2}{\del J_1 J_2} \bigg( \frac{1}{2} (J\cdot G_0\cdot J)_{s,r} \bigg) =  (G_0)_{t_1,t_2}
+\ese 
+to replace
+\begin{center}
+    \btik 
+        \node at (-1,0) {\Large{$\frac{\del^2}{\del J_1 \del J_2}\Big($}};
+        \draw[thick] (0,0) -- (2,0);
+        \draw[thick, fill=white] (0,0) circle [radius=0.1cm];
+        \draw[thick, fill=white] (2,0) circle [radius=0.1cm]; 
+        \node at (2.75,0) {\Large{$\Big) \, = $}};
+        \draw[thick] (4,0) -- (6,0);
+        \node at (4,-0.3) {$t_1$};
+        \node at (6,-0.3) {$t_2$};
+    \etik 
+\end{center}
+
+Note that it is only the terms that have exactly $N$ hollow circles in it that survive this process: if there's less then there's a derivative that has nothing to act on; if there's more then setting $J=0$ corresponds to saying diagrams with a hollow circle left vanish. 
+
+\br 
+    Note that our differentiated diagrams need to respect the symmetry property of the maths. For example, we know that $(G_0)_{t_1,t_2} = (G_0)_{t_2,t_1}$ and so we must have 
+    \begin{center}
+        \btik 
+            \draw[thick] (0,0) -- (2,0);
+            \node at (0,-0.3) {$t_1$};
+            \node at (2,-0.3) {$t_2$};
+            \node at (3,0) {\Large{$=$}};
+            \draw[thick] (4,0) -- (6,0);
+            \node at (4,-0.3) {$t_2$};
+            \node at (6,-0.3) {$t_1$};
+        \etik 
+    \end{center}
+    Note we don't get factors from this symmetry though, because the diagrams come with that same factor divided. For example  
+    \begin{center}
+        \btik 
+            \node at (-1.4,0) {\Large{$\frac{\del}{\del J_1}\Bigg($}};
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+		    \draw[thick] (0,0) -- (0,0.75);
+		    \draw[thick, fill=white] (0,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={120:(0,0)}] (0,0) -- (0,0.75);
+		    \draw[thick, fill=white, rotate around={120:(0,0)}] (0,0.75) circle [radius=0.1cm];
+		    \draw[thick, rotate around={-120:(0,0)}] (0,0) -- (0,0.75);
+		    \draw[thick, fill=white, rotate around={-120:(0,0)}] (0,0.75) circle [radius=0.1cm];
+		    \node at (1.4,0) {\Large{$\Bigg) \, =$}}; 
+		    \begin{scope}[xshift=3cm]
+		        \draw[fill=black] (0,0) circle [radius=0.1cm];
+    		    \draw[thick] (0,0) -- (0,0.75);
+    		    \node at (0,1) {$t_1$};
+    		    \draw[thick, rotate around={120:(0,0)}] (0,0) -- (0,0.75);
+    		    \draw[thick, fill=white, rotate around={120:(0,0)}] (0,0.75) circle [radius=0.1cm];
+    		    \draw[thick, rotate around={-120:(0,0)}] (0,0) -- (0,0.75);
+    		    \draw[thick, fill=white, rotate around={-120:(0,0)}] (0,0.75) circle [radius=0.1cm];
+		    \end{scope}
+        \etik 
+    \end{center}
+    \textit{without} a factor of $3!$ at the front. That is, there are $3!$ different ways to get the right-hand side, but the symmetry factor of this diagram is exactly $1/3!$.
+\er
+
+
+%\br 
+%    We need to take the symmetry factors into account when taking derivatives of the diagrams. By which we mean, imagine temporarily colouring the hollow circles to track them, then write out all the permutations and then take the derivative always removing the circle in the same position. If we then remove the colouring, all the diagrams add up and we might try stick a prefactor in front of the derivative. However we have to remember that we also divide by the symmetry factor in the diagrams, and this will exactly cancel this prefactor. Perhaps an example will help see this: imagine differentiating this \textcolor{red}{Ask Douglas}
+%    \begin{center}
+%        \btik 
+%            \draw[thick] (0,0) -- (2,0);
+%            \draw[thick, fill=white] (0,0) circle [radius=0.1cm];
+%            \draw[thick, fill=white] (2,0) circle [radius=0.1cm];
+%            \node at (3,0) {\Large{$= \, \frac{1}{2!}\bigg($}};
+%            \draw[thick] (4,0) -- (6,0);
+%            \draw[thick, blue, fill=white] (4,0) circle [radius=0.1cm];
+%            \draw[thick, red, fill=white] (6,0) circle [radius=0.1cm];
+%            \node at (6.5,0) {\Large{$+$}};
+%            \draw[thick] (7,0) -- (9,0);
+%            \draw[thick, red, fill=white] (7,0) circle [radius=0.1cm];
+%            \draw[thick, blue, fill=white] (9,0) circle [radius=0.1cm];
+%            \node at (9.5,0) {\Large{$\bigg)$}};
+%        \etik 
+%    \end{center}
+%\er 
+
+\bex 
+    We can find the $2$-point function for out $q^3$ theory. To first order in $\l$, all the diagrams outside the exponential vanish (as none have exactly $2$ hollow circles), and so we are just left with the terms that are pulled down from the action on the exponential. It is clear\footnote{And hence I'm saving myself the pain of Tikzing it all.} that what we are left with at the end is simply 
+    \begin{center}
+        \btik 
+            \draw[thick] (0,0) -- (2,0);
+            \node at (0,-0.3) {$t_1$};
+            \node at (2,-0.3) {$t_2$};
+        \etik  
+    \end{center}
+\eex 
+
+We now note that from the diagrams we can obtain terms that do not appear in the expansion of \Cref{eqn:PartitionFunctionLambdaCubed}. For example, the following diagram is a valid diagram at first order in $\l$
+\begin{center}
+    \btik 
+        \draw[thick] (0,0) -- (1,0);
+        \draw[thick] (-0.5,0) circle [radius=0.5cm];
+        \draw[fill=black] (0,0) circle [radius=0.1cm];
+        \draw[thick, fill=white] (1,0) circle [radius=0.1cm];
+        \draw[thick] (1.3,0) -- (2.3,0);
+        \draw[thick, fill=white] (1.3,0) circle [radius=0.1cm];
+        \draw[thick, fill=white] (2.3,0) circle [radius=0.1cm];
+    \etik  
+\end{center}
+\noindent where we note this is \textit{not} the sum of two diagrams, but is collectively one diagram. We see that this is essentially two of the previous diagrams `put next to each other' in a disconnected way. This diagram will give a non-zero contribution to the $3$-point Green's function, and it is easy to convince yourself (exercise below) that the full $3$-point function is given by 
+\begin{center}
+    \btik 
+        \begin{scope}[xshift=-4cm]
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \node at (1,-0.3) {$t_1$};
+            \draw[thick] (1.3,0) -- (2.3,0);
+            \node at (1.4,-0.3) {$t_2$};
+            \node at (2.3,-0.3) {$t_3$};
+            \node at (2.7,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[]
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \node at (1,-0.3) {$t_2$};
+            \draw[thick] (1.3,0) -- (2.3,0);
+            \node at (1.4,-0.3) {$t_1$};
+            \node at (2.3,-0.3) {$t_3$};
+            \node at (2.7,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=4cm]
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \node at (1,-0.3) {$t_3$};
+            \draw[thick] (1.3,0) -- (2.3,0);
+            \node at (1.4,-0.3) {$t_2$};
+            \node at (2.3,-0.3) {$t_1$};
+            \node at (2.7,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=8cm]
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+		    \draw[thick] (0,0) -- (0,0.75);
+		    \node at (0,1) {$t_1$};
+		    \draw[thick, rotate around={120:(0,0)}] (0,0) -- (0,0.75);
+		    \node at (1,-0.5) {$t_2$};
+		    \draw[thick, rotate around={-120:(0,0)}] (0,0) -- (0,0.75);
+		    \node at (-0.9,-0.5) {$t_3$};
+        \end{scope}
+    \etik 
+\end{center}
+
+\bbox 
+    Convince yourself that the above is indeed the $3$-point function for the $q^3$ theory. 
+\ebox 
+
+\subsection{Vacuum Bubbles}
+
+Now note that if we go to order $\l^2$ then we will get diagrams that look like 
+\begin{center}
+    \btik
+        \begin{scope}[xshift=-3cm]
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+            \draw[thick] (1.5,0) circle [radius=0.5cm];
+        \end{scope}
+        \node at (0.2,0) {and};
+        \begin{scope}[xshift=3cm]
+            \draw[thick] (-1,0) -- (1,0);
+            \draw[thick] (0,0) circle [radius=1cm];
+            \draw[fill=black] (-1,0) circle [radius=0.1cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+        \end{scope}
+    \etik 
+\end{center}
+These diagrams have no external legs (i.e. there are no hollow circles), and we refer to diagrams of this kind as \textit{vacuum bubbles}. Our partition function does not contain vacuum bubbles and so we need to  `divide the diagrams out'. What do we mean by this? Well we note that for every one of these vacuum bubble diagrams we also get the same diagram but now with a $(J\cdot G_0 \cdot J)$ term too, e.g.  
+\begin{center}
+    \btik 
+        \draw[thick] (0,0) -- (1,0);
+        \draw[thick] (-0.5,0) circle [radius=0.5cm];
+        \draw[fill=black] (0,0) circle [radius=0.1cm];
+        \draw[fill=black] (1,0) circle [radius=0.1cm];
+        \draw[thick] (1.5,0) circle [radius=0.5cm];
+        \draw[thick] (2.3,0) -- (3.3,0);
+        \draw[thick,fill=white] (2.3,0) circle [radius=0.1cm];
+        \draw[thick,fill=white] (3.3,0) circle [radius=0.1cm];
+    \etik
+\end{center}
+We therefore `factor out' the vacuum bubble parts and divide by the purely vacuum bubble diagrams to cancel them. For example, the $2$-point function for the $q^3$ theory at order $\l^3$ is given by the division of diagrams
+\begin{center}
+    \btik 
+        \begin{scope}
+            \draw[thick] (0,0) -- (1,0);
+            \node at (0,-0.3) {$t_1$};
+            \node at (1,-0.3) {$t_2$};
+        \end{scope}
+        \begin{scope}[xshift=3.75cm]
+            \node at (-1.75,0) {\Large{$\Bigg[ 1 \, +$}};
+            %
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+            \draw[thick] (1.5,0) circle [radius=0.5cm];
+            %
+            \node at (2.3,0) {\Large{$+$}};
+            %
+            \draw[thick] (2.7,0) -- (3.7,0);
+            \draw[thick] (3.2,0) circle [radius=0.5cm];
+            \draw[fill=black] (2.7,0) circle [radius=0.1cm];
+            \draw[fill=black] (3.7,0) circle [radius=0.1cm];
+            %
+            \node at (4.2,0) {\Large{$\Bigg] \, +$}};
+        \end{scope}
+        \begin{scope}[xshift=9cm]
+            \draw[thick] (0,-0.7) -- (0,0);
+            \draw[thick] (0,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \node at (0,-1) {$t_1$};
+            \draw[thick] (1,-0.7) -- (1,0);
+            \draw[thick] (1,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+            \node at (1,-1) {$t_2$};
+            \node at (1.6,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=12cm]
+            \draw[thick] (-1,0) -- (-0.5,0);
+            \node at (-0.9,-0.3) {$t_1$};
+            \draw[fill=black] (-0.5,0) circle [radius=0.1cm];
+            \draw[thick] (0,0) circle [radius=0.5cm];
+            \draw[fill=black] (0.5,0) circle [radius=0.1cm];
+            \draw[thick] (0.5,0) -- (1,0);
+            \node at (1,-0.3) {$t_2$};
+            \node at (1.4,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=14cm]
+            \draw[thick] (0,-0.5) -- (1.2,-0.5);
+            \node at (0.1,-0.8) {$t_1$};
+            \node at (1.2,-0.8) {$t_2$};
+            \draw[fill=black] (0.6,-0.5) circle [radius=0.1cm];
+            \draw[thick] (0.6,-0.5) -- (0.6,0);
+            \draw[thick] (0.6,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (0.6,0) circle [radius=0.1cm];
+        \end{scope}
+        \draw[ultra thick] (0,-1.5) -- (15.5,-1.5);
+        \begin{scope}[xshift=6.5cm,yshift=-2.5cm]
+            \node at (-1.75,0) {\Large{$\Bigg[ 1 \, +$}};
+            %
+            \draw[thick] (0,0) -- (1,0);
+            \draw[thick] (-0.5,0) circle [radius=0.5cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+            \draw[thick] (1.5,0) circle [radius=0.5cm];
+            %
+            \node at (2.3,0) {\Large{$+$}};
+            %
+            \draw[thick] (2.7,0) -- (3.7,0);
+            \draw[thick] (3.2,0) circle [radius=0.5cm];
+            \draw[fill=black] (2.7,0) circle [radius=0.1cm];
+            \draw[fill=black] (3.7,0) circle [radius=0.1cm];
+            %
+            \node at (4.2,0) {\Large{$\Bigg]$}};
+        \end{scope}
+    \etik  
+\end{center}
+\noindent which after the division just leaves 
+\begin{center}
+    \btik 
+        \begin{scope}
+            \draw[thick] (0,0) -- (1,0);
+            \node at (0,-0.3) {$t_1$};
+            \node at (1,-0.3) {$t_2$};
+            \node at (1.5,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=2.5cm]
+            \draw[thick] (0,-0.7) -- (0,0);
+            \draw[thick] (0,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (0,0) circle [radius=0.1cm];
+            \node at (0,-1) {$t_1$};
+            \draw[thick] (1,-0.7) -- (1,0);
+            \draw[thick] (1,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (1,0) circle [radius=0.1cm];
+            \node at (1,-1) {$t_2$};
+            \node at (1.8,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=6cm]
+            \draw[thick] (-1,0) -- (-0.5,0);
+            \node at (-0.9,-0.3) {$t_1$};
+            \draw[fill=black] (-0.5,0) circle [radius=0.1cm];
+            \draw[thick] (0,0) circle [radius=0.5cm];
+            \draw[fill=black] (0.5,0) circle [radius=0.1cm];
+            \draw[thick] (0.5,0) -- (1,0);
+            \node at (1,-0.3) {$t_2$};
+            \node at (1.5,0) {\Large{$+$}};
+        \end{scope}
+        \begin{scope}[xshift=8cm]
+            \draw[thick] (0,-0.5) -- (1.2,-0.5);
+            \node at (0.1,-0.8) {$t_1$};
+            \node at (1.2,-0.8) {$t_2$};
+            \draw[fill=black] (0.6,-0.5) circle [radius=0.1cm];
+            \draw[thick] (0.6,-0.5) -- (0.6,0);
+            \draw[thick] (0.6,0.4) circle [radius=0.4cm];
+            \draw[fill=black] (0.6,0) circle [radius=0.1cm];
+        \end{scope}
+    \etik 
+\end{center}
+
+This gives us the final general conclusion 
+\mybox{
+\begin{center}
+    $N$-point function is given by sum of all diagrams with exactly $N$ external legs but no vacuum bubble contributions. 
+\end{center}
+}
+
+\bbox 
+    Convince yourself that there are no other contributions to the $2$-point function at order $\l^2$. 
+\ebox 
+
+\section{Semi-Classical Expansion}
+
+We conclude the course with a brief discussion of the semi-classical approximation to the path integral. We obtain this by Taylor expanding the action about a classical path $q_{cl}$:
+\bse 
+    S[q_{cl}+\eta] = S[q_{cl}] + \int dt_1 \eta(t_1) \frac{\del S}{\del q(t_1)} [q_{cl}] + \frac{1}{2!}\int dt_1 dt_2 \eta(t_1)\eta(t_2) \frac{\del^2 S}{\del q(t_1) \del q(t_2)} [q_{cl}] + ...,
+\ese 
+now we note that the term with a single integral vanishes as the variation of the action gives the Euler-Lagrange equations and the classical path minimises these. Now let's consider rescalling 
+\bse 
+    \eta \to \sqrt{\hbar}\eta,
+\ese 
+and noting, as before,
+\bse 
+    D(q_{cl}+\eta) = D\eta,
+\ese
+then our Feynman kernel becomes 
+\bse 
+    \begin{split}
+        K(q_F,T;q_I,0) & = \int Dq \, \exp\bigg(\frac{i}{\hbar} S[q_{cl}+\eta]\bigg) \\
+        & \propto e^{\frac{i}{\hbar}S[q_{cl}]}\int D\eta \, \exp\Bigg[ \frac{i}{2!} \int dt_1 dt_2 \eta(t_1)\eta(t_2) \frac{\del^2 S[q_{cl}]}{\del q(t_1) \del q(t_2)} + ... \\
+        & \qquad + \frac{i}{n!} \hbar^{\frac{n}{2}-1} \int dt_1 ... dt_n \eta(t_1)...\eta(t_n) \frac{\del^n S[q_{cl}]}{\del q(t_1)... \del q(t_n)}  + ... \Bigg] \\
+        & = e^{\frac{i}{\hbar}S[q_{cl}]}\int D\eta \, \exp\Bigg[ \frac{i}{2!} \int dt_1 dt_2 \eta(t_1)\eta(t_2) \frac{\del^2 S[q_{cl}]}{\del q(t_1) \del q(t_2)}\Bigg]\Big( 1 +\cO\big(\sqrt{\hbar}\big) \Big).
+    \end{split}
+\ese 
+Now obviously the prefactor is the classical contribution, and we see that the leading order quantum contribution is a Gaussian path integral in $\eta$, i.e. its of the form
+\bse 
+    \int D \eta \, \exp\big( i\eta\cdot \Omega \cdot \eta\big) \propto \big(\det (-i\Omega)\big)^{-1/2},
+\ese 
+where\footnote{Extra exercise: prove this formula holds.}
+\bse 
+    \begin{split}
+        \Omega_{t_1,t_2} & = \frac{1}{2} \frac{\del^2 S[q_{cl}]}{\del q(t_1) \del q(t_2)} \\
+        & = -\frac{1}{2}\bigg( m\frac{d^2}{dt_1^2} + V''\big(q_{cl}\big)\bigg) \del(t_1-t_2)
+    \end{split}
+\ese 
+where we have assumed the Lagrangian has the usual kinetic term (i.e. $\frac{m}{2}\dot{q}^2$). $\det(-i\Omega)$ is the product of the eigenvalues of the operator
+\bse 
+    \frac{i}{2}\bigg( m\frac{d^2}{dt_1^2} + V''\big(q_{cl}\big)\bigg)
+\ese 
+acting on $\eta(t)$ subject to the constraints $\eta(t_I)=\eta(t_F)=0$. The semiclassical approximation is when we ignore the contributions from the $\cO(\sqrt{\hbar})$ terms.
+
+\br 
+    If the action is quadratic in $q$ (e.g. the SHO) then the semiclassical solution is exact.
+\er 
+
+\br 
+    If the classical path is not unique we must take a sum over all the different classical solutions.
+\er 
+
+\bex 
+    Let's look at the SHO as an example. As just remarked, this will give us an exact result. Here we have 
+    \bse 
+        V''(q_{cl}) = m\omega^2, \qquad \implies \qquad \Omega_{t_1,t_2} = -\frac{m}{2} \bigg(\frac{d^2}{dt_1^2} + \omega^2\bigg)\del(t_1-t_2).
+    \ese 
+    The eigenvectors of the operator here are 
+    \bse 
+        \eta(t) = A \cos(\widetilde{\omega}t) + B \sin(\widetilde{\omega}t),
+    \ese 
+    with eigenvalues 
+    \bse 
+        \l = \omega^2 -\widetilde{\omega}^2.
+    \ese 
+    If we now impose the condition $\eta(t_I)=0=\eta(t_F)$ with $t_I=0$, $t_F=T$, we conclude 
+    \bse 
+        \widetilde{\omega} = \frac{n\pi}{T}, \qquad n \in \N,
+    \ese 
+    and so 
+    \bse 
+        \l = \omega^2 - \bigg(\frac{n\pi}{T}\bigg)^2 \propto 1 - \bigg(\frac{\omega T}{n\pi}\bigg)^2.
+    \ese
+    We can therefore conclude 
+    \bse 
+        \big(\det(-i\Omega)\big)^{-1/2} \propto \prod_{n=1}^{\infty} \bigg[ 1 - \bigg(\frac{\omega T}{n\pi}\bigg)^2\bigg]^{-1/2} = \sqrt{\frac{\omega T}{\sin(\omega T)}}.
+    \ese 
+\eex 

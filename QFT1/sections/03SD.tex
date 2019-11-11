@@ -1,0 +1,256 @@
+\chapter{Classical Limit \& Schwinger-Dyson Equation}
+
+\section{Classical Limit}
+
+Last lecture by showing that in our path integral, every path contributes a factor of $e^{\frac{i}{\hbar}S[q]}$, all with magnitude $1$. This was a result in the quantum theory, and as always it is instructive to check that in some limit we get the classical theory back, i.e. only paths that satisfy the Euler-Lagrange equations. We shall do just that now. 
+
+When we observe a path, there is always some uncertainty about the path, that is we cannot distinguish between $q(t)$ and $q(t)+\eta(t)$, where $\eta(t)$ is some small deviation. Now the action for this latter path is given by 
+\begin{equation*}
+    \begin{split}
+        S[q+\eta] & = \int_{t_I}^{t_F} dt \, L(q+\eta, \dot{q}+\dot{\eta}) \\
+        & = \int_{t_I}^{t_F} dt \Bigg( L(q,\dot{q}) + \eta(t) \frac{\p L}{\p q}(q,\dot{q}) + \dot{\eta}(t) \frac{\p L}{\p \dot{q}}(q,\dot{q}) + \cO(\eta^2)\bigg) \\
+        & = S[q] + \int_{t_I}^{t_F} dt \, \eta(t) \bigg( \frac{\p L}{\p q} -\frac{d}{dt} \bigg[\frac{\p L}{\p \dot{q}}\bigg]\bigg) + \cO(\eta^2),
+    \end{split}
+\end{equation*}
+where we've used the standard tool of integrating by parts and saying that $\eta(t_I)=0=\eta(t_F)$, and where on the last line we have suppressed the arguments of $L$ for notational reasons. So we see the deviated path contributes a phase factor of 
+\bse 
+    \int_{t_I}^{t_F} dt \, \eta(t) \bigg( \frac{\p L}{\p q} -\frac{d}{dt} \bigg[\frac{\p L}{\p \dot{q}}\bigg]\bigg) + \cO(\eta^2).
+\ese 
+So what does this mean for the classical limit? Well we need to sum over all the different $\eta(t)$ variations, and if $q(t)$ is not the classical path $q_{cl}(t)$, i.e. the one that satisfies the Euler-Lagrange equations, we get a wide range of contributions to the phase. Overall these will approximately destructively interfere and so will not contribute to drastically to the result. Now if $q(t)=q_{cl}(t)$ then the bracket term vanishes and the contributions to the phase are $\cO(\eta^2)$, and so the range is decreased. We claim that this results in a significant reduction in the destructive interference and contributes to constructive interference, and so this gives the biggest contribution. In other words, paths that aren't the classical path cancel whereas the ones near the classical path add, so we get the classical result. 
+
+\br 
+    We can also see this result by doing our Wick rotation to the Euclidean picture. Here we get contributions of the form 
+    \bse 
+        \exp\bigg( -\frac{1}{\hbar}\big(S_E[q]- S_E[q_{cl}]\big)\bigg),
+    \ese 
+    and so we see straight away that non-classical paths are exponentially suppressed.
+\er 
+
+\subsection{Variations Around The Classical Path}
+
+What happens to our path integral when we take a variation around the classical path? Well just seen how the action changes, and showed that if we take the variation around the classical path we get 
+\bse 
+    S[q+\eta] = S[q_{cl}] + \cO(\eta^2).
+\ese 
+What about the integral measure $Dq$? Well to this the change $q=q_{cl}+\eta$ is just a change of variables, and we take $q_{cl}$ to be a `constant' so we just get 
+\bse 
+    Dq \to D\eta. 
+\ese 
+So the path integral is 
+\bse 
+    \int Dq e^{\frac{i}{\hbar}S[q]} = e^{\frac{i}{\hbar}S[q_{cl}]} \int D\eta \, e^{\frac{i}{\hbar}\cO(\eta^2)}.
+\ese 
+Now we note that if we consider an action that is at most quadratic in $q$, then our order $\eta^2$ terms are independent of $q_{cl}$ (we would need at least a cubic $q$ for that), and so for these cases we get 
+\bse 
+    \int Dq e^{\frac{i}{\hbar}S[q]} = e^{\frac{i}{\hbar}S[q_{cl}]} \int D\eta \, e^{\frac{i}{\hbar}S[\eta]}.
+\ese 
+We then simplify notation by using $t_I=0$, $t_F=T$ which gives
+\be 
+\label{eqn:eta(t)Sin}
+    \eta(0)=0=\eta(T) \qquad \implies \qquad \eta(t) = \sum_{i=1}^{\infty} a_{\l} \sin\bigg(\frac{\l\pi t}{T}\bigg),
+\ee 
+then if we discretise the time over $n$ intermediate paths $q_j$, this is equivalent (up to a normalisation factor) to taking $\eta(t)$ as above and integrating over the $a_{\l}$. We shall return to this soon when consdiering the harmonic oscillator.
+
+\section{Calculating The PI Exactly}
+
+As anyone familiar with QFT knows, it is only in very special cases that we can obtain exact results and in all other cases we tend to turn to perturbation theory. We will address this next lecture, but for this lecture we will present particular examples of when we can obtain an exact result for the path integral. It is worth emphasising again that this is \textit{not} something you can do in general, but is a particular property of the systems we're studying. 
+
+\subsection{Free Particle}
+
+Of course the most simple system we can study is the free particle. This corresponds to setting $V(q)=0$, and so our Feynman kernel (in the discrete time formalism, i.e. using \Cref{eqn:FeynmanKernerlDiscreteTime}) becomes
+\be 
+\label{eqn:FeynmanKernelFreeParticleOne}
+    K(q_F,T;q_I,0) = \lim_{n\to\infty} \sqrt{\frac{-im}{2\pi\hbar \epsilon}}  \int\Bigg[\prod_{i=1}^{n-2}\sqrt{\frac{-im}{2\pi\hbar \epsilon}} dq_i\Bigg] \exp\bigg(\frac{im}{2\hbar\epsilon} \sum_{j=1}^{n-1} (q_j-q_{j-1})^2 \bigg),
+\ee 
+where we also impose $q_0=q_I$ and $q_{n-1}=q_F$. We now notice that these are essentially a (huge) collection of Gaussian integrals, and so we can solve it. However, we need to be a bit clever because each $q_j$ appears twice, i.e. once as $q_j$ and once as $q_{(j+1)-1}$. We therefore want some kind of inductive proof of a result.
+
+\bcl 
+    We can rewrite \Cref{eqn:FeynmanKernelFreeParticleOne} as 
+    \bse 
+        K(q_F,T;q_I,0) = \lim_{n\to\infty} \sqrt{\frac{-im}{2\pi\hbar\epsilon}} \Bigg[ \prod_{j=1}^{n-2} \sqrt{\frac{j}{j+1}} \Bigg] \exp \bigg( \frac{im}{2\hbar\epsilon} \frac{1}{n-1} (q_F-q_I)^2\bigg)
+    \ese 
+\ecl 
+
+\bq 
+    First we note that the we can do the $dq_j$ integral without effecting any of the $k>j$ results but it will effect the $\ell<j$ ones. So we start at $j=1$ and work upwards. The proof then follows by noticing that we can write the $j=1$ term as (note $j_0=j_I$).
+    \bse 
+        \cI_1 = \sqrt{\frac{-im}{2\pi\hbar\epsilon}} \int dq_j \exp \bigg[ \frac{im}{2\hbar\epsilon} \bigg( (q_{j+1}-q_j)^2 + \frac{1}{j}(q_j-q_I)^2\bigg)\bigg].
+    \ese 
+    Let's see what this evaluates to. We start by expanding 
+    \bse 
+        (q_{j+1}-q_j)^2 + \frac{1}{j}(q_j-q_I)^2 = \bigg(\frac{j+1}{j}\bigg) q_j^2 -2\bigg(q_{j+1} + \frac{1}{j}q_I\bigg)q_j + q_{j+1}^2 + \frac{1}{j}q_I^2.
+    \ese 
+    Now we use a Wick rotation $T\to -iT$, and hence $\epsilon = T/n \to -i\epsilon$, so our integral becomes 
+    \bse 
+        \cI_1^E = \sqrt{\frac{m}{2\pi\hbar\epsilon}} \int dq_j \exp \big( -aq_j^2 + bq_j + c\big)
+    \ese 
+    where 
+    \bse 
+        a = \frac{m}{2\hbar\epsilon}\bigg(\frac{j+1}{j}\bigg), \qquad b = \frac{m}{\hbar\epsilon}\bigg(q_{j+1}+ \frac{1}{j}q_I\bigg), \qand c = -\frac{m}{2\hbar\epsilon}\bigg(q_{j+1}^2 + \frac{1}{j}q_I^2\bigg).
+    \ese
+    Now use the Gaussian result 
+    \bse 
+        \int dx \exp\big(-ax^2+bx+c\big) = \sqrt{\frac{\pi}{a}} \exp\bigg(\frac{b^2}{4a}+c\bigg), \qquad \text{if} \qquad \Re a >0,
+    \ese 
+    to give 
+    \bse
+        \cI_1^E = \sqrt{\frac{j}{j+1}} \exp\Bigg[ \frac{m}{2\hbar\epsilon}\Bigg( \frac{j}{j+1} \bigg[q_{j+1} + \frac{1}{j}q_I\bigg]^2 - \bigg[ q_{j+1}^2 + \frac{1}{j}q_I^2 \bigg] \Bigg) \Bigg].
+    \ese
+    Let's now focus on the bit inside round brackets: 
+    \bse 
+        \begin{split}
+            \frac{j}{j+1} \bigg(q_{j+1} + \frac{1}{j}q_I\bigg)^2 - \bigg( q_{j+1}^2 + \frac{1}{j}q_I^2 \bigg) & = q_{j+1}^2\bigg(\frac{j}{j+1}-1\bigg) + \frac{q_I^2}{j}\bigg(\frac{1}{j+1}-1\bigg) - \frac{2q_{j+1}q_I}{(j+1)} \\
+            & = -\frac{1}{j+1} \big( q_{j+1}^2 + q_I^2 - 2q_{j+1}q_I\big) \\
+            & = -\frac{1}{j+1} (q_{j+1}-q_I)^2,
+        \end{split}
+    \ese 
+    so if we undo our Wick rotation, i.e. $\epsilon\to i\epsilon$, we get 
+    \bse 
+        \cI_1 = \sqrt{\frac{j}{j+1}} \exp \bigg( \frac{im}{2\hbar\epsilon}\frac{1}{j+1} (q_{j+1}-q_I)^2\bigg).
+    \ese
+    
+    So now we consider the $d1_2$ integral: the square root factor obviously just factors out and the rest is simply
+    \bse 
+        \exp\bigg[\frac{im}{2\hbar\epsilon} \bigg( \big(q_{j_2+1} - q_{j_2}\big)^2 + \frac{1}{j_1+1}\big(q_{j_1+1}-q_I
+        \big)^2\bigg)\bigg],
+    \ese 
+    then we use $j_2=j_1+1$ to give 
+    \bse 
+        \cI_2 = \sqrt{\frac{j_1}{j_2}} \sqrt{\frac{-im}{2\pi\hbar\epsilon}} \int dq_2 \exp\bigg[\frac{im}{2\hbar\epsilon} \bigg( \big(q_{j_2+1} - q_{j_2}\big)^2 + \frac{1}{j_2}\big(q_{j_2}-q_I
+        \big)^2\bigg)\bigg],
+    \ese 
+    which is (up to the first root factor) the equation we started the proof of. So we see the formula holds inductively (that's the reason we've been using $j$ all the time rather then setting $j=1$). 
+    
+    So we will just get a $\sqrt{j/j+1}$ factor for each integral, there's $n-2$ of these giving us the full result 
+    \bse 
+        K(q_F,T;q_I,0) = \lim_{n\to\infty} \sqrt{\frac{-im}{2\pi\hbar\epsilon}} \Bigg[ \prod_{j=1}^{n-2} \sqrt{\frac{j}{j+1}} \Bigg] \exp \bigg( \frac{im}{2\hbar\epsilon} \frac{1}{n-1} (q_{j-1}-q_I)^2\bigg),
+    \ese 
+    then we finally use $q_{j-1}=q_F$ which gives us exactly the result in the claim. 
+\eq 
+
+Now we note that the product in the above formula will simply give 
+\bse 
+    \prod_{j=1}^{n-2}\sqrt{\frac{j}{j+1}} = \frac{1}{\sqrt{n-1}},
+\ese
+and so, using $T = n\epsilon \sim  (n-1)\epsilon$, where the second term is understood in the limit $n\to\infty$, we finally get 
+\be 
+\label{eqn:FeynmanFernalFreeParticle}
+    K(q_F,T;q_I,0) = \sqrt{\frac{-im}{2\pi\hbar T}} \exp\bigg( \frac{im}{2\hbar T} (q_F-q_I)^2\bigg) \propto \exp\bigg(\frac{i}{\hbar} S[q_{cl}]\bigg),
+\ee 
+where the second part comes from the fact that the square-root term is independent of $q_F/q_I$ and the definition of the classical action. 
+
+\subsection{Simple Harmonic Oscillator}
+
+Another case we can solve exactly is the simple harmonic oscillator. The Lagrangian is 
+\bse 
+    L = \frac{m}{2} \dot{q}^2 - \frac{m}{2}\omega^2q^2. 
+\ese
+This has classical action 
+\be
+\label{eqn:SHOClassicAction}
+    S[q_{cl}] = \frac{m\omega}{2\sin(\omega T)}\Big[ (q_F^2+q_I^2)\cos(\omega T) -2q_Fq_I \Big]
+\ee 
+
+We can treat this as a variation to the classical path, and so as per the section above our path integral is
+\bse 
+    \begin{split}
+        \int Dq e^{\frac{i}{\hbar}S[q]} & = e^{\frac{i}{\hbar}S[q_{cl}]} \int D\eta \, \exp\bigg( \frac{im}{2\hbar}\big( \dot{\eta}^2 - \omega^2\eta^2\big)\bigg) \\
+        & = e^{\frac{i}{\hbar}S[q_{cl}]} \int D\eta \, \exp\bigg[ \frac{im}{2\hbar}\eta\bigg( -\frac{d^2}{dt^2} - \omega^2\bigg)\eta\bigg],
+    \end{split}
+\ese 
+where the second line follows from integration by parts. 
+
+\bbox
+    Prove that integration by parts leads to the expression above.
+\ebox  
+
+We then use our simplified notation \Cref{eqn:eta(t)Sin} and note that this is an eigenvector of the operator in our integral, i.e. 
+\bse 
+    \bigg( -\frac{d^2}{dt^2} - \omega^2\bigg)\eta = \bigg(\frac{\l^2\pi^2}{T^2} - \omega^2\bigg) \eta,
+\ese 
+to obtain (absorbing everything else into the proportionality constant, we will get it all back at the end)
+\bse
+    \int Dq e^{\frac{i}{\hbar}S[q]} \propto \lim_{n\to\infty} \bigg[\prod_{j=1}^{n} \int da_{\l}\bigg] \exp\bigg[ \frac{im}{2\hbar}\bigg(\frac{\l^2\pi^2}{T^2} -\omega^2\bigg)\sum_{i=1}^n a^2_{\l}\bigg].
+\ese 
+Then we notice this is just the product of a bunch of Gaussian integrals, so we get
+\bse
+    \begin{split}
+        \int Dq \, e^{\frac{i}{\hbar}S[q]} \propto \prod_{\l=1}^{\infty} \bigg(\frac{\l^2\pi^2}{T^2} -\omega^2\bigg)^{-1/2} \propto \prod_{\l=1}^{\infty} \bigg(1- \frac{\omega^2T^2}{\l^2\pi^2}\bigg)^{-1/2} = \bigg(\frac{\sin(\omega T)}{\omega T}\bigg)^{-1/2}.
+    \end{split}
+\ese 
+
+Now the proportionality constant appears to have got very complicated as we've gone along, however it can easily be checked that we haven't removed anything that is a function of $\omega$, and so we know that our path integral is of the form 
+\bse 
+    \int D\eta \, e^{\frac{i}{\hbar}S[\eta]} = f(T) \bigg(\frac{\sin(\omega T)}{\omega T}\bigg)^{-1/2}.
+\ese 
+So how do we find $f(T)$, well we use 
+\bse 
+    \lim_{\omega\to0} \bigg(\frac{\sin(\omega T)}{\omega T}\bigg) = 1,
+\ese 
+to notice that in this limit our classic action, \Cref{eqn:SHOClassicAction}, is just that of a free particle action, which gives us
+\bse 
+    \lim_{\omega\to0} \int Dq \, e^{\frac{i}{\hbar}S[q]} = f(T) \exp\bigg(\frac{im}{2\hbar T} (q_F-q_I)^2 \bigg),
+\ese 
+which comparing to \Cref{eqn:FeynmanFernalFreeParticle} gives us 
+\bse 
+    f(T) = \sqrt{\frac{-im}{2\pi\hbar T}},
+\ese
+and finally
+\bse 
+    \int Dq \, e^{\frac{i}{\hbar}S[q]} = \sqrt{\frac{-im\omega}{2\pi\hbar T \sin(\omega T)}} \exp\bigg(\frac{m\omega}{2\sin(\omega T)}\Big[ (q_F^2+q_I^2)\cos(\omega T) -2q_Fq_I \Big]\bigg).
+\ese 
+
+\section{Schwinger-Dyson Equation}
+
+As we said before, it is not normally true that we can solve path integrals exactly, and we need some method to solve them perturbatively. We can gain an appreciation of this fact by finding the differential equations that the partition function satisfies. Recall that the partition function can be written 
+\bse 
+    Z[J] = \cN \int Dq \exp \bigg( \frac{i}{\hbar} S[q] + \int dt q(t) J(t)\bigg).
+\ese
+In this expression, $q(t)$ is just an integration variable, and so the result is completely unchanged if we change variables to 
+\bse 
+    q(t) \to q(t) + \eta(t),
+\ese 
+provided $\eta(t)$ is independent of $q$. That is, we also have (using $D(q+\eta) = Dq$ for fixed $\eta$)
+\bse 
+    \begin{split}
+        Z[J] & = \cN \int Dq \exp \bigg( \frac{i}{\hbar} S[q+\eta] +  \int dt q(t) J(t) + \int dt \eta(t) J(t)\bigg) \\
+        & = \cN \int Dq \exp \bigg( \frac{i}{\hbar} S[q] + \frac{i}{\hbar}\int dt \eta(t) \frac{\del S[q]}{\del q(t)} +  \int dt q(t) J(t) + \int dt \, \eta(t) \frac{\del}{\del q(t)} \int ds J(s)q(s)\bigg) + \cO(\eta^2),
+    \end{split}
+\ese 
+where the second line simply comes from the expanding $S[q+\eta]$ and rewriting 
+\bse 
+    \int dt \, \eta(t) J(t) = \int dt \, \eta(t) \frac{\del}{\del q(t)} \int ds J(s)q(s).
+\ese 
+Now the difference between the two different expressions for $Z[J]$ must vanish (as they are equal, all we've done is change integration variable). So if we take them away from each other and Taylor expand we get 
+\bse 
+    \begin{split}
+        0 & =\frac{i}{\hbar} \int dt \, \eta(t) \frac{\del S[q]}{\del q(t)} + \int dt \, \eta(t) \frac{\del}{\del q(t)} \int ds \, J(s) q(s) + \cO(\eta^2) \\
+        & = \int dt \eta(t) \frac{\del}{\del q(t)} \bigg( \frac{i}{\hbar}S[q] + \int ds J(s) q(s) \bigg) + \cO(\eta^2) \\
+        & = \cN\int Dq \int dt \eta(t) \frac{\del}{\del q(t)} \exp\bigg( \frac{i}{\hbar}S[q] + \int ds J(s) q(s) \bigg) + \cO(\eta^2),
+    \end{split}
+\ese 
+where the last line follows from the fact that the exponential is non-degenerate and that the path integral of 0 is 0. Now we use that we haven't specified the form of $\eta(t)$, and so we can conclude 
+\bse 
+    0 = \cN\int Dq \frac{\del}{\del q(t)} \exp\bigg( \frac{i}{\hbar}S[q] + \int ds J(s) q(s) \bigg).
+\ese
+Now we shall assume our Lagrangians are of the form 
+\bse 
+    L(q,\dot{q}) = \frac{m}{2}\dot{q}^2 + V(q),
+\ese 
+where $V(q)$ is some polynomial function. Then using the fact that the functional variation of the action gives us the Euler-Lagrange equations, the above condition become 
+\bse 
+    0 = \cN\int Dq \bigg( \frac{i}{\hbar} \Big[-V'\big(q(t)\big) - m \Ddot{q}(t) \Big] + J(t) \bigg) \exp\bigg( \frac{i}{\hbar}S[q] + \int ds J(s) q(s) \bigg).
+\ese 
+Finally we notice that 
+\bse 
+    \frac{\del}{\del J(t)}\exp\bigg( \frac{i}{\hbar}S[q] + \int ds J(s) q(s) \bigg) = q(t),
+\ese 
+and so we can replace the $q$s in the previous equation with functional derivatives w.r.t. $J(t)$. This allows us to pull these terms outside the path integral (i.e. past the $Dq$), giving us a differential equation for the partition function, known as the \textit{Schwinger-Dyson equation}: 
+\mybox{
+    \be
+    \label{eqn:SchwingerDyson}
+        \Bigg( -\frac{i}{\hbar} \Bigg[V'\bigg(\frac{\del}{\del J(t)}\bigg) + m \frac{d^2}{dt^2}\frac{\del}{\del J(t)} \Bigg] + J(t) \Bigg) Z[J] = 0.
+    \ee 
+}
+
+This now explains to us why the previous two problems were solvable: if we have a quadratic action, then $V'$ is linear and so we get $2^{\text{nd}}$ order linear functional differential equation, which we can solve. However for the more general cases, when $V'$ is not linear, things get a lot more complicated. 
