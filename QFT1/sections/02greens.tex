@@ -43,21 +43,25 @@ This just comes from taking the limit using the right hand side of the first equ
 \bse 
     G(t_1,...,t_N) = \widetilde{\cN} \int DpDq \, q(t_N)q(t_{N-1}) ... q(t_1) \exp \bigg[ \frac{i}{\hbar} \int_{-\infty e^{-i\theta}}^{{\infty e^{-i\theta}}} dt \, \big(p(t)\dot{q}(t) - H(p,q)\big)\bigg],
 \ese 
-for some normalisation constant $\widetilde{\cN}$, which contains the $p(t_F)q(t_F)$ term in the previous exponential. Note the limits on the integrals contain factors of $e^{-i\theta}$ to remind us that we're doing the Wick rotated integral. To save notation, we shall drop the integral limits below, but its important to note that we have to take this limit to define the $N$-point Green's function.
+for some normalisation constant $\widetilde{\cN}$, which contains the $p(t_F)q(t_F)$ term in the previous exponential. Note the limits on the integrals contain factors of $e^{-i\theta}$ to remind us that we're doing the Wick rotated integral. To save notation, we shall drop the integral limits below, but it's important to note that we have to take this limit to define the $N$-point Green's function.
 
 \br 
 \label{rem:EuclideanTime}
-    With that last comment in mind, it is common to take $\theta=\pi/2$ so that $e^{-i\theta}=-i$ and then define $\tau=-it$ so that we can write the integral as\footnote{Bonus exercise, check this.} 
+    With that last comment in mind, it is common to take $\theta=\pi/2$ so that $e^{-i\theta}=-i$ and then define $\tau=it$ so that we can write the integral as\footnote{Bonus exercise, check this.} 
     \bse 
-        i\int_{i\infty}^{-i\infty} dt = - \int_{-\infty}^{\infty} d\tau
+        i\int_{i\infty}^{-i\infty} dt =  \int_{-\infty}^{\infty} d\tau
     \ese 
-    This allows us to see the exponential suppression even easier. As mentioned last lecture, $\tau$ is referred to as \textit{Euclidean time}. Note in Euclidean time $\dot{q}=i\dot{q}$, and so 
+    As mentioned last lecture, $\tau$ is referred to as \textit{Euclidean time}. Note in Euclidean time $\dot{q}=i\dot{q}$, and so 
     \bse 
         L(q,\dot{q}) \to -\frac{m}{2}\dot{q}^2 - V(q),
     \ese 
     and so we define the \textit{Euclidean Action}
     \bse 
         S_E[q] := \int d\tau \bigg(\frac{m}{2}\dot{q}^2 + V(q)\bigg)
+    \ese 
+    This allows us to see the exponential suppression easier as we get (setting $\hbar=1$ for a moment). 
+    \bse 
+        e^{iS} \to e^{-S_E}.
     \ese 
 \er 
 
@@ -131,7 +135,7 @@ finally giving us the result
 
 In Euclidean time this can be written 
 \bse 
-    G_E(t_1,...,t_N) = \frac{\int Dq \, q(t_N)...q(t_1) \exp\Big(-\frac{1}{\hbar} S_E[q]\Big)}{\int Dq \, \exp\Big(\frac{i}{\hbar} S_E[q]\Big)}
+    G_E(t_1,...,t_N) = \frac{\int Dq \, q(t_N)...q(t_1) \exp\Big(-\frac{1}{\hbar} S_E[q]\Big)}{\int Dq \, \exp\Big(-\frac{1}{\hbar} S_E[q]\Big)}
 \ese
 
 \section{Partition Function}
@@ -237,7 +241,7 @@ We can take the sum over all the $N$-point Green's functions and get what is kno
 
 \subsection{Path Integral Form}
 
-We can use the path integral expression for the $N$-point Green's function, \Cref{eqn:NPointGreensFunctionQM} to write the partition function as a path integral. We have 
+We can use the path integral expression for the $N$-point Green's function, \Cref{eqn:NPointGreensFunctionQM}, to write the partition function as a path integral. We have 
 \bse 
     \begin{split}
         \frac{1}{\cN} Z[J] & = \int Dq \bigg( e^{\frac{i}{\hbar}S[q]} + \sum_{N=1}^{\infty} \frac{1}{N!} \int ds_1...ds_N J(s_1) ... J(s_N) q(s_1) ... q(s_N) \,  e^{\frac{i}{\hbar}S[q]}\bigg) \\
@@ -285,7 +289,7 @@ to give
         & =  \lim_{n\to\infty} \bigg(\frac{-im}{\epsilon}\bigg)^{\frac{n-1}{2}} \int dp_F \frac{1}{\sqrt{2\pi\hbar}}e^{\frac{i}{\hbar}p_Fq_F} \frac{1}{\sqrt{2\pi\hbar}}\int Dq \exp\bigg(\frac{i}{\hbar} S[q] - p_Fq_{n-1}\bigg),
     \end{split}
 \ese 
-where we have used \Cref{eqn:pqInnerProduct,eqn:DpGaussianResult,eqn:pUq}, with the latter manipulated as we did for the Green's function to get the action in the exponential. The constant $A$ is just the result of  Note that we haven't taken the limit on the $q_{n-1}$ in the exponential yet, this is because we can now combine it with the first exponential and use 
+where we have used \Cref{eqn:pqInnerProduct,eqn:DpGaussianResult,eqn:pUq}, with the latter manipulated as we did for the Green's function to get the action in the exponential. Note that we haven't taken the limit on the $q_{n-1}$ in the exponential yet, this is because we can now combine it with the first exponential and use 
 \bse 
     \int dp_F \exp\bigg( \frac{i}{\hbar} p_F(q_F-q_{n-1})\bigg) = (2\pi\hbar) \del(q_F-q_{n-1}),
 \ese
@@ -297,7 +301,7 @@ to give (putting the definition of $Dq$, \Cref{eqn:PathIntegralMeasure}, in)
         & =  \lim_{n\to\infty} \sqrt{\frac{-im}{2\pi\hbar \epsilon}}  \int\Bigg[\prod_{i=1}^{n-2}\sqrt{\frac{-im}{2\pi\hbar \epsilon}} dq_i\Bigg] \exp\bigg(\frac{i}{\hbar} S[q]\bigg)\bigg|_{q_{n-1}=q_F},
     \end{split}
 \ee
-where on the second line we have cone some rearrangement (notice the upper limit on the product changes because of delta function). So if we redefine $Dq$ appropriately, we get 
+where on the second line we have done some rearrangement (notice the upper limit on the product changes because of delta function). So if we redefine $Dq$ appropriately, we get 
 \mybox{
     \be
     \label{eqn:FeynmanKernelPathIntegral}

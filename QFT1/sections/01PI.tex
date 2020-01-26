@@ -65,7 +65,7 @@ is the \textit{time evolution operator}. The Feynman kernel tells us the amplitu
 
 The trick to getting the Feynman integral is to insert a complete set of states
 \bse 
-    \b1 = \int dq \bra{q}\ket{q}
+    \b1 = \int dq \ket{q}\bra{q}
 \ese 
 for both the initial and final state. Let's give examples for clarity.
 
@@ -88,7 +88,7 @@ for both the initial and final state. Let's give examples for clarity.
     Let's assume we have some state with initial wavefunction $\psi(q_I,t_I)$. We can find the expression for its evolution to some later wavefunction $\psi(q_F,t_F)$ in terms of the Feynman kernel:
     \bse 
         \begin{split}
-            \psi(q_F,t_F) & := \braket{q_F}{\psi(t_F} \\
+            \psi(q_F,t_F) & := \braket{q_F}{\psi(t_F)} \\
             & = \bra{q_F} \hat{U}(T) \ket{\psi(t_I)} \\
             & = \int dq_I \bra{q_F} \hat{U}(T) \ket{q_I} \braket{q_I}{\psi(t_I)} \\
             & =\int dq_I K(q_F,T;q_I,0) \psi(q_I,t_I),
@@ -119,7 +119,7 @@ where $\ket{\Omega}$ is the ground state of our system, and $\cT$ is the time or
 
 \section{Motivating The Path Integral Approach}
 
-So what is a path integral? Well as the name suggests, it is an integral over paths, but what do we mean by this and what's it got to do with the Feynman kernel? Well let's consider the double slit experiment. The interference pattern this generated can be explained in terms of waves, or we can explain it in terms of particles, provided we put a phase on each particle path. That is, the total amplitude to go from the source to a particular point is given by the sum of the amplitudes of the two separate paths, as indicated in the figure below. 
+So what is a path integral? Well as the name suggests, it is an integral over paths, but what do we mean by this and what's it got to do with the Feynman kernel? Well let's consider the double slit experiment. The interference pattern this generates can be explained in terms of waves, or we can explain it in terms of particles, provided we put a phase on each particle path. That is, the total amplitude to go from the source to a particular point is given by the sum of the amplitudes of the two separate paths, as indicated in the figure below. 
 
 \begin{center}
     \btik 
@@ -217,12 +217,12 @@ But as Zee points on, this last comment has a very important result. If we want 
 
 \br 
 \label{rem:SmoothPaths}
-    On a technical note, we require the paths we integrate over to be smooth, that is continuous and infinitely differentiable. This is a reasonable thing to assume, as a discontinuous line would correspond to a particle `teleporting' while a non-continuous one would mean its velocity was discontinuous, which is also a problem.  
+    On a technical note, we require the paths we integrate over to be smooth, that is continuous and infinitely differentiable. This is a reasonable thing to assume, as a discontinuous line would correspond to a particle `teleporting' while a non-differentiable one would mean its velocity was discontinuous, which is also a problem.  
 \er 
 
 \subsection{Relation To Feynman Kernel}
 
-Ok so we've answered the first question about what a path integral is, now we just need to see how it's related to the Feynman kernel. Well in the case of 1-dimensional QM the analogy is that each screen corresponds to a fixed time and the points each slit a position at that time. So the path between two slits is telling us the amplitude to go from one position at one time to another position at a later time. Well this is just the Feynman kernel. So in the `limit' that we remove all the screens, our Feynman kernel is an integral over all the different paths through spacetime connecting the initial position at initial time to the final position at the final time. 
+Ok so we've answered the first question about what a path integral is, now we just need to see how it's related to the Feynman kernel. Well in the case of 1-dimensional QM the analogy is that each screen corresponds to a fixed time and each slit a position at that time. So the path between two slits is telling us the amplitude to go from one position at one time to another position at a later time. Well this is just the Feynman kernel. So in the `limit' that we remove all the screens, our Feynman kernel is an integral over all the different paths through spacetime connecting the initial position at initial time to the final position at the final time. 
 
 \br 
     Note to go to a higher dimensional case is easy, simply replace the slits with a $d$-dimensional sheet with holes poked in it. 
@@ -247,11 +247,11 @@ Let's calculate something now. It might not be obvious at first what we're calcu
 
 So what we want to find is 
 \bse 
-    \bra{p_F}U(T)\ket{q_I} = \bra{p_F} e^{-\frac{i}{\hbar}H}\ket{q_I}.
+    \bra{p_F}U(T)\ket{q_I} = \bra{p_F} e^{-\frac{i}{\hbar}HT}\ket{q_I}.
 \ese 
 Note this is \textit{not} the Feynman kernel as we have $p_F$ for the left hand state. With the above intuition in mind, let's break the the time interval up into $n$ equal intervals with 
 \bse 
-    t_i = t_I + \frac{\epsilon}{n}, \qquad \text{with} \qquad \epsilon = \frac{T}{n}.
+    t_j = t_I + j\epsilon, \qquad \text{with} \qquad \epsilon = \frac{T}{n}.
 \ese 
 Note that this gives us $t_0=t_I$ and $t_n=t_F$, which is obviously what we want. We shall therefore relabel $p_F=p_n$ and $q_I=q_0$. Using the $\epsilon$ definition we can rewrite the our expression as
 \bse 
@@ -259,7 +259,7 @@ Note that this gives us $t_0=t_I$ and $t_n=t_F$, which is obviously what we want
 \ese 
 Now we employ our trick of inserting the identity as a complete set of states. In fact we insert 
 \bse 
-    \b1 = \b1^2 = \int dq \ket{q}\bra{q} \int dp \ket{p}\bra{p} = \int \frac{dqdp}{\sqrt{2\pi\hbar}} e^{\frac{i}{\hbar}pq},
+    \b1 = \b1^2 = \int dq \ket{q}\bra{q} \int dp \ket{p}\bra{p} = \int \frac{dqdp}{\sqrt{2\pi\hbar}} e^{\frac{i}{\hbar}pq}\ket{q}\bra{p},
 \ese 
 where we have used \Cref{eqn:pqInnerProduct}. We do this in-between every exponential term. This gives us\footnote{And so begins the painful job of following terms around...}
 \bse 
@@ -295,7 +295,7 @@ We then take the limit $n\to\infty$ and define the path integral measure
         \int DpDq := \lim_{n\to\infty} \int \Bigg[ \prod_{i=1}^{n-1}\frac{dq_i}{\sqrt{2\pi\hbar}}\frac{dp_i}{\sqrt{2\pi\hbar}}\Bigg],
     \ee 
 }
-\noindent and then argue that $q_{n-1}=q_n$ in this limit and also use 
+\noindent and then argue that $q_{n-1}=q_n$ in this limit, and also use 
 \bse 
     \lim_{n\to\infty} \frac{q_i-q_{i-1}}{\epsilon} = \dot{q}(t_i)
 \ese 
@@ -321,7 +321,7 @@ in the limit $t\to\infty$. Well consider the analytic continuation of $t$ to the
 \label{eqn:WickRotation}
     t \to e^{-i\theta} t, \qquad \theta\in [0,\pi/2].
 \ee  
-This is what we call a Wick rotation, and we note that $\theta=0$ changes nothing, but $\theta=\pi/2$ takes our exponential in \Cref{eqn:UWickRotation} from being complex to being real. People often refer to this as "going to Euclidean time", for obvious reasons. Ok so what happens now, well our expression becomes (setting $\hbar=1$ for this calculation)
+This is what we call a Wick rotation, and we note that $\theta=0$ changes nothing, but $\theta=\pi/2$ takes our exponential in \Cref{eqn:UWickRotation} from being complex to being real. People often refer to this as "going to Euclidean time", for obvious reasons. Ok so what happens no? Well our expression becomes (setting $\hbar=1$ for this calculation)
 \bse 
     U(t)\ket{\psi} = \int dE e^{-i\cos\theta Et} e^{-\sin\theta Et} \ket{E}\braket{E}{\psi}.
 \ese 

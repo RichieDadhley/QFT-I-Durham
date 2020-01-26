@@ -2,7 +2,7 @@
 
 \section{Classical Limit}
 
-Last lecture by showing that in our path integral, every path contributes a factor of $e^{\frac{i}{\hbar}S[q]}$, all with magnitude $1$. This was a result in the quantum theory, and as always it is instructive to check that in some limit we get the classical theory back, i.e. only paths that satisfy the Euler-Lagrange equations. We shall do just that now. 
+Last lecture we showed that in our path integral every path contributes a factor of $e^{\frac{i}{\hbar}S[q]}$, all with magnitude $1$. This was a result in the quantum theory, and as always it is instructive to check that in some limit we get the classical theory back, i.e. only paths that satisfy the Euler-Lagrange equations. We shall do just that now. 
 
 When we observe a path, there is always some uncertainty about the path, that is we cannot distinguish between $q(t)$ and $q(t)+\eta(t)$, where $\eta(t)$ is some small deviation. Now the action for this latter path is given by 
 \begin{equation*}
@@ -16,7 +16,7 @@ where we've used the standard tool of integrating by parts and saying that $\eta
 \bse 
     \int_{t_I}^{t_F} dt \, \eta(t) \bigg( \frac{\p L}{\p q} -\frac{d}{dt} \bigg[\frac{\p L}{\p \dot{q}}\bigg]\bigg) + \cO(\eta^2).
 \ese 
-So what does this mean for the classical limit? Well we need to sum over all the different $\eta(t)$ variations, and if $q(t)$ is not the classical path $q_{cl}(t)$, i.e. the one that satisfies the Euler-Lagrange equations, we get a wide range of contributions to the phase. Overall these will approximately destructively interfere and so will not contribute to drastically to the result. Now if $q(t)=q_{cl}(t)$ then the bracket term vanishes and the contributions to the phase are $\cO(\eta^2)$, and so the range is decreased. We claim that this results in a significant reduction in the destructive interference and contributes to constructive interference, and so this gives the biggest contribution. In other words, paths that aren't the classical path cancel whereas the ones near the classical path add, so we get the classical result. 
+So what does this mean for the classical limit? Well we need to sum over all the different $\eta(t)$ variations, and if $q(t)$ is not the classical path $q_{cl}(t)$, i.e. they don't satisfy the Euler-Lagrange equations, we get a wide range of contributions to the phase. Overall these will approximately destructively interfere and so will not contribute too drastically to the result. Now if $q(t)=q_{cl}(t)$ then the bracket term vanishes and the contributions to the phase are $\cO(\eta^2)$, and so the deviation range is decreased. We claim that this results in a significant reduction in the destructive interference and contributes to constructive interference, and so this gives the biggest contribution. In other words, paths that aren't the classical path cancel whereas the ones near the classical path add, so we get the classical result. 
 
 \br 
     We can also see this result by doing our Wick rotation to the Euclidean picture. Here we get contributions of the form 
@@ -28,7 +28,7 @@ So what does this mean for the classical limit? Well we need to sum over all the
 
 \subsection{Variations Around The Classical Path}
 
-What happens to our path integral when we take a variation around the classical path? Well just seen how the action changes, and showed that if we take the variation around the classical path we get 
+What happens to our path integral when we take a variation around the classical path? We've just seen how the action changes, and showed that if we take the variation around the classical path we get 
 \bse 
     S[q+\eta] = S[q_{cl}] + \cO(\eta^2).
 \ese 
@@ -109,7 +109,7 @@ where we also impose $q_0=q_I$ and $q_{n-1}=q_F$. We now notice that these are e
         \cI_1 = \sqrt{\frac{j}{j+1}} \exp \bigg( \frac{im}{2\hbar\epsilon}\frac{1}{j+1} (q_{j+1}-q_I)^2\bigg).
     \ese
     
-    So now we consider the $d1_2$ integral: the square root factor obviously just factors out and the rest is simply
+    So now we consider the $dq_2$ integral: the square root factor obviously just factors out and the rest is simply
     \bse 
         \exp\bigg[\frac{im}{2\hbar\epsilon} \bigg( \big(q_{j_2+1} - q_{j_2}\big)^2 + \frac{1}{j_1+1}\big(q_{j_1+1}-q_I
         \big)^2\bigg)\bigg],
@@ -119,7 +119,7 @@ where we also impose $q_0=q_I$ and $q_{n-1}=q_F$. We now notice that these are e
         \cI_2 = \sqrt{\frac{j_1}{j_2}} \sqrt{\frac{-im}{2\pi\hbar\epsilon}} \int dq_2 \exp\bigg[\frac{im}{2\hbar\epsilon} \bigg( \big(q_{j_2+1} - q_{j_2}\big)^2 + \frac{1}{j_2}\big(q_{j_2}-q_I
         \big)^2\bigg)\bigg],
     \ese 
-    which is (up to the first root factor) the equation we started the proof of. So we see the formula holds inductively (that's the reason we've been using $j$ all the time rather then setting $j=1$). 
+    which is (up to the first root factor) the equation we started the proof with. So we see the formula holds inductively (that's the reason we've been using $j$ all the time rather then setting $j=1$). 
     
     So we will just get a $\sqrt{j/j+1}$ factor for each integral, there's $n-2$ of these giving us the full result 
     \bse 
@@ -132,7 +132,7 @@ Now we note that the product in the above formula will simply give
 \bse 
     \prod_{j=1}^{n-2}\sqrt{\frac{j}{j+1}} = \frac{1}{\sqrt{n-1}},
 \ese
-and so, using $T = n\epsilon \sim  (n-1)\epsilon$, where the second term is understood in the limit $n\to\infty$, we finally get 
+and so, using $T = n\epsilon \approx  (n-1)\epsilon$, where the second term is understood in the limit $n\to\infty$, we finally get 
 \be 
 \label{eqn:FeynmanFernalFreeParticle}
     K(q_F,T;q_I,0) = \sqrt{\frac{-im}{2\pi\hbar T}} \exp\bigg( \frac{im}{2\hbar T} (q_F-q_I)^2\bigg) \propto \exp\bigg(\frac{i}{\hbar} S[q_{cl}]\bigg),
@@ -148,7 +148,7 @@ Another case we can solve exactly is the simple harmonic oscillator. The Lagrang
 This has classical action 
 \be
 \label{eqn:SHOClassicAction}
-    S[q_{cl}] = \frac{m\omega}{2\sin(\omega T)}\Big[ (q_F^2+q_I^2)\cos(\omega T) -2q_Fq_I \Big]
+    S[q_{cl}] = \frac{m\omega}{2\sin(\omega T)}\Big[ (q_F^2+q_I^2)\cos(\omega T) -2q_Fq_I \Big].
 \ee 
 
 We can treat this as a variation to the classical path, and so as per the section above our path integral is
